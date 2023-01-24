@@ -1,0 +1,26 @@
+# /Users/jenspauwels/.config/tmuxinator/bluecherry-blueapp.yml
+
+name: bc-node-backend
+root: ~/
+
+windows:
+  - bc-user:
+      layout: main-horizontal
+      panes:
+        - editor:
+          - cd ~/Documents/dev/BLUECHERRY/bluecherry-platform/microservices/bluecherry-user
+          - nvim .
+
+  - bc-sso:
+      layout: main-horizontal
+      panes:
+        - editor:
+          - cd ~/Documents/dev/BLUECHERRY/bluecherry-platform/microservices/bluecherry-sso
+          - nvim .
+
+  - dpt-node-lib:
+      layout: main-horizontal
+      panes:
+        - editor:
+          - cd ~/Documents/dev/BLUECHERRY/bluecherry-platform/dpt-node-lib
+          - nvim .

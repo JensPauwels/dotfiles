@@ -1,0 +1,95 @@
+# /Users/jenspauwels/.config/tmuxinator/bluecherry-blueapp.yml
+
+name: bc-go-backend
+root: ~/
+
+windows:
+  - bclib:
+      layout: main-horizontal
+      panes:
+        - editor:
+          - cd ~/Documents/dev/BLUECHERRY/bc-go/bc-golib/
+          - nvim .
+
+  - dptlib:
+      layout: main-horizontal
+      panes:
+        - editor:
+          - cd ~/Documents/dev/DPT_GO/dpt-golib/
+          - nvim .
+
+  - webshop:
+      layout: main-horizontal
+      panes:
+        - editor:
+          - cd ~/Documents/dev/BLUECHERRY/bc-go/bc-webshop
+          - nvim .
+        - start:
+          - cd ~/Documents/dev/BLUECHERRY/bc-go/bc-webshop
+          - MODE=DEVELOPMENT go run main.go
+
+  - devgroups:
+      layout: main-horizontal
+      panes:
+        - editor:
+          - cd ~/Documents/dev/BLUECHERRY/bc-go/bc-device-groups/
+          - nvim .
+        - start:
+          - cd ~/Documents/dev/BLUECHERRY/bc-go/bc-device-groups/
+          - MODE=DEVELOPMENT go run main.go
+
+  - account:
+      layout: main-horizontal
+      panes:
+        - editor:
+          - cd ~/Documents/dev/BLUECHERRY/bc-go/bc-account/
+          - nvim .
+        - start:
+          - cd ~/Documents/dev/BLUECHERRY/bc-go/bc-account/
+          - MODE=DEVELOPMENT go run main.go
+
+  - legal:
+      layout: main-horizontal
+      panes:
+        - editor:
+          - cd ~/Documents/dev/BLUECHERRY/bc-go/bc-legal/
+          - nvim .
+        - start:
+          - cd ~/Documents/dev/BLUECHERRY/bc-go/bc-legal/
+          - MODE=DEVELOPMENT go run main.go
+
+  - sso:
+      layout: main-horizontal
+      panes:
+        - editor:
+          - cd ~/Documents/dev/BLUECHERRY/bc-go/bc-sso/
+          - nvim .
+        - start:
+          - cd ~/Documents/dev/BLUECHERRY/bc-go/bc-sso/
+          - MODE=DEVELOPMENT go run main.go
+
+  - ngrok:
+      layout: main-horizontal
+      panes:
+        - editor:
+          - ngrok http 9100
+
+  - nots:
+      layout: main-horizontal
+      panes:
+        - editor:
+          - cd ~/Documents/dev/BLUECHERRY/bc-go/bc-notifications/
+          - nvim .
+        - start:
+          - cd ~/Documents/dev/BLUECHERRY/bc-go/bc-notifications/
+          - MODE=DEVELOPMENT go run main.go
+
+  - pdf-api:
+      layout: main-horizontal
+      panes:
+        - editor:
+          - cd ~/Documents/dev/BLUECHERRY/bluecherry-platform/microservices/bluecherry-pdf-api
+          - nvim .
+        - start:
+          - cd ~/Documents/dev/BLUECHERRY/bluecherry-platform/microservices/bluecherry-pdf-api
+          - mvn spring-boot:run

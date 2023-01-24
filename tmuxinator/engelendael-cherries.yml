@@ -1,0 +1,77 @@
+# /Users/jenspauwels/.config/tmuxinator/engelendael-cherries.yml
+
+name: 'engelendael-cherries'
+root: ~/
+
+windows:
+  - go-lib:
+      layout: main-horizontal
+      panes:
+        - editor:
+          - cd ~/Documents/dev/PRIVATE_PROJECTS/engelendael/libs/engelendael-go
+          - nvim .
+        - start:
+          - cd ~/Documents/dev/PRIVATE_PROJECTS/engelendael/libs/engelendael-go
+          - go run *.go
+
+  - sso-api:
+      layout: main-horizontal
+      panes:
+        - editor:
+          - cd ~/Documents/dev/PRIVATE_PROJECTS/engelendael/sso/sso-go
+          - nvim .
+        - start:
+          - cd ~/Documents/dev/PRIVATE_PROJECTS/engelendael/sso/sso-go
+          - go run *.go
+
+  - cherries-go:
+      layout: main-horizontal
+      panes:
+        - editor:
+          - cd ~/Documents/dev/PRIVATE_PROJECTS/engelendael/cherries-platform/server-go/
+          - nvim .
+        - start:
+          - cd ~/Documents/dev/PRIVATE_PROJECTS/engelendael/cherries-platform/server-go/
+          - go run *.go
+
+  - cherries-node:
+      layout: main-horizontal
+      panes:
+        - editor:
+          - cd ~/Documents/dev/PRIVATE_PROJECTS/engelendael/cherries-platform/server-node/
+          - nvim .
+        - start:
+          - cd ~/Documents/dev/PRIVATE_PROJECTS/engelendael/cherries-platform/server-node/
+          - go run *.go
+
+  - sso-ui:
+      layout: main-horizontal
+      panes:
+        - editor:
+          - cd ~/Documents/dev/PRIVATE_PROJECTS/engelendael/sso/ui-react
+          - nvim .
+        - start:
+          - cd ~/Documents/dev/PRIVATE_PROJECTS/engelendael/sso/ui-react
+          - yarn start
+
+  - platform-ui:
+      layout: main-horizontal
+      panes:
+        - editor:
+          - cd ~/Documents/dev/PRIVATE_PROJECTS/engelendael/cherries-platform/ui-react
+          - nvim .
+        - start:
+          - cd ~/Documents/dev/PRIVATE_PROJECTS/engelendael/cherries-platform/ui-react
+          - yarn start
+
+
+  - website:
+      layout: main-horizontal
+      panes:
+        - editor:
+          - cd ~/Documents/dev/PRIVATE_PROJECTS/engelendael/website
+          - nvim .
+        - start:
+          - cd ~/Documents/dev/PRIVATE_PROJECTS/engelendael/website
+          - yarn start
+

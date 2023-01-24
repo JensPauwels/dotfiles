@@ -1,0 +1,52 @@
+# /Users/jenspauwels/.config/tmuxinator/engelendael-gate.yml
+
+name: 'engelendael-gate'
+root: ~/
+
+windows:
+  - gate-go:
+      layout: main-horizontal
+      panes:
+        - editor:
+          - cd ~/Documents/dev/PRIVATE_PROJECTS/engelendael/gatecontrol/server-go
+          - nvim .
+        - start:
+          - cd ~/Documents/dev/PRIVATE_PROJECTS/engelendael/gatecontrol/server-go
+          - MODE=DEVELOPMENT go run *.go
+
+  - gate-ui:
+      layout: main-horizontal
+      panes:
+        - editor:
+          - cd ~/Documents/dev/PRIVATE_PROJECTS/engelendael/gatecontrol/ui-react
+          - nvim .
+        - start:
+          - cd ~/Documents/dev/PRIVATE_PROJECTS/engelendael/gatecontrol/ui-react
+          - yarn start
+
+  - gate-settings-go:
+      layout: main-horizontal
+      panes:
+        - editor:
+          - cd ~/Documents/dev/PRIVATE_PROJECTS/engelendael/gatecontrol-settings/server-go
+          - nvim .
+        - start:
+          - cd ~/Documents/dev/PRIVATE_PROJECTS/engelendael/gatecontrol-settings/server-go
+          - MODE=DEVELOPMENT go run *.go
+
+  - gate-settings-ui:
+      layout: main-horizontal
+      panes:
+        - editor:
+          - cd ~/Documents/dev/PRIVATE_PROJECTS/engelendael/gatecontrol-settings/ui-react
+          - nvim .
+        - start:
+          - cd ~/Documents/dev/PRIVATE_PROJECTS/engelendael/gatecontrol-settings/ui-react
+          - yarn start
+
+  - gate-lib:
+      layout: main-horizontal
+      panes:
+        - editor:
+          - cd ~/Documents/dev/PRIVATE_PROJECTS/engelendael/libs/gate-lib/
+          - nvim .

@@ -1,0 +1,72 @@
+# /Users/jenspauwels/.config/tmuxinator/bluecherry-blueapp.yml
+
+name: bluecherry-blueapp
+root: ~/
+
+windows:
+  - dpt-node-lib:
+      layout: main-horizontal
+      panes:
+        - editor:
+          - cd ~/Documents/dev/BLUECHERRY/bluecherry-platform/dpt-node-lib
+          - nvim .
+        - start:
+          - cd ~/Documents/dev/BLUECHERRY/bluecherry-platform/dpt-node-lib
+          - yarn start
+
+  - blueapp-api:
+      layout: main-horizontal
+      panes:
+        - editor:
+          - cd ~/Documents/dev/BLUECHERRY/bluecherry-platform/microservices/bluecherry-blueapp
+          - nvim .
+        - start:
+          - cd ~/Documents/dev/BLUECHERRY/bluecherry-platform/microservices/bluecherry-blueapp
+
+  - bc-user:
+      layout: main-horizontal
+      panes:
+        - editor:
+          - cd ~/Documents/dev/BLUECHERRY/bluecherry-platform/microservices/bluecherry-user
+          - nvim .
+        - start:
+          - cd ~/Documents/dev/BLUECHERRY/bluecherry-platform/microservices/bluecherry-user
+
+  - bc-sso:
+      layout: main-horizontal
+      panes:
+        - editor:
+          - cd ~/Documents/dev/BLUECHERRY/bluecherry-platform/microservices/bluecherry-sso
+          - nvim .
+        - start:
+          - cd ~/Documents/dev/BLUECHERRY/bluecherry-platform/microservices/bluecherry-sso
+
+  - ui-sso:
+      layout: main-horizontal
+      panes:
+        - editor:
+          - cd ~/Documents/dev/BLUECHERRY/bluecherry-platform/ui/bluecherry-ui-sso
+          - nvim .
+        - start:
+          - cd ~/Documents/dev/BLUECHERRY/bluecherry-platform/ui/bluecherry-ui-sso
+          - yarn start
+
+  - ui-blueapp:
+      layout: main-horizontal
+      panes:
+        - editor:
+          - cd ~/Documents/dev/BLUECHERRY/bluecherry-platform/ui/bluecherry-blueapp
+          - nvim .
+        - start:
+          - cd ~/Documents/dev/BLUECHERRY/bluecherry-platform/ui/bluecherry-blueapp
+          - yarn start
+
+  - dpt-react:
+      layout: main-horizontal
+      panes:
+        - editor:
+          - cd ~/Documents/dev/TOOLS/libs/dpt-react
+          - nvim .
+        - start:
+          - cd ~/Documents/dev/TOOLS/libs/dpt-react
+          - yarn dev

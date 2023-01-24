@@ -1,0 +1,35 @@
+# /Users/jenspauwels/.config/tmuxinator/bluecherry-blueapp.yml
+
+name: bc-ui
+root: ~/
+
+windows:
+  - bc-user:
+      layout: main-horizontal
+      panes:
+        - editor:
+          - cd ~/Documents/dev/BLUECHERRY/bluecherry-platform/ui/bluecherry-ui-user
+          - nvim .
+        - start:
+          - cd ~/Documents/dev/BLUECHERRY/bluecherry-platform/ui/bluecherry-ui-user
+          - yarn start
+
+  - bc-user-v2:
+      layout: main-horizontal
+      panes:
+        - editor:
+          - cd ~/Documents/dev/BLUECHERRY/bluecherry-platform/ui/bc-ui-user-v2/
+          - nvim .
+        - start:
+          - cd ~/Documents/dev/BLUECHERRY/bluecherry-platform/ui/bc-ui-user-v2/
+          - yarn start
+
+  - bc-sso:
+      layout: main-horizontal
+      panes:
+        - editor:
+          - cd ~/Documents/dev/BLUECHERRY/bluecherry-platform/ui/bluecherry-ui-sso
+          - nvim .
+        - start:
+          - cd ~/Documents/dev/BLUECHERRY/bluecherry-platform/ui/bluecherry-ui-sso
+          - yarn start

@@ -1,0 +1,91 @@
+snippet imr "import react"
+import React from 'react';
+endsnippet
+
+snippet af "Anon function"
+$1 = () => {
+ $2
+};
+endsnippet
+
+snippet caf "const anon function" w
+const $1 = () => {
+
+};
+endsnippet
+
+snippet cl "console log"
+console.log($0)
+endsnippet
+
+snippet imp "import"
+import { $1 } from '$0';
+endsnippet
+
+snippet fm "FormattedMessage" b
+<FormattedMessage id="$1" />$2
+endsnippet
+
+snippet p "Param"
+this.${1:} = param(data, '$1');
+$2
+endsnippet
+
+snippet v "Value"
+${1:}: this.$1,
+$2
+endsnippet
+
+snippet store "New store" w
+import { observable, decorate } from 'mobx';
+
+class $1 {
+  $2
+}
+
+decorate(${1:}, {
+
+});
+
+export default new ${1:}();
+endsnippet
+
+snippet btn "Button" w
+<Button text="$1" onClick={$0}/>
+endsnippet
+
+snippet ifm "import formatted message" w
+import { FormattedMessage } from 'react-intl';
+endsnippet
+
+snippet label "Label component" w
+<Label htmlFor="$0"/>
+endsnippet
+
+snippet oc "onClick" w
+onClick={$0}
+endsnippet
+
+snippet och "onChange" w
+onChange={$0}
+endsnippet
+
+snippet frag "Fragment" w
+<>
+  $0
+</>
+endsnippet
+
+snippet i18n "I18n" w
+import { translate } from '../I18n';
+endsnippet
+
+snippet messages "import Messages from i18n" w
+import { Messages } from '../I18n';
+endsnippet
+
+
+snippet info "Info" b
+<Info info="$0" />
+endsnippet
+
