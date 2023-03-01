@@ -27,7 +27,7 @@ local function generateConstructorParameters(params)
       str = str.."\n\t\t"
     end
 
-    str = str.."this."..param.." = param(data, '"..param.."');"
+    str = str.."this."..param.." = data.?"..param.." ?? '';"
   end
 
   return str;
@@ -71,12 +71,16 @@ end
 
 local function buildModel(className, params)
   local baseStr = [[
-import { observable, decorate } from 'mobx';
-import { Param as param } from 'dpt-react';
+import { observable, makeObservable } from 'mobx';
 
 class CLASSNAME {
   constructor(data) {
     CONSTRUCTOR_PARAMS
+
+
+    makeObservable(this, {
+      OBSERVABLES
+    });
   }
 
   toJS = () => {
@@ -85,10 +89,6 @@ class CLASSNAME {
     }
   }
 };
-
-decorate(CLASSNAME, {
-  OBSERVABLES
-});
 
 export default CLASSNAME;]];
 
