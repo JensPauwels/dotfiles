@@ -86,7 +86,8 @@ font:
     # family: "FiraMono Nerd Font Mono"
     # family: Victor Mono
     # family: Jetbrains Mono
-    family: JetbrainsMono Nerd Font Mono
+    family: FuraMono Nerd Font
+    # family: JetbrainsMono Nerd Font Mono
     # family: "Hack"
 
   # The bold font face
@@ -96,8 +97,6 @@ font:
     # family: Jetbrains Mono
     family: JetbrainsMono Nerd Font Mono
     # family: "Hack"
-
-
     # family: "Hack"
     style: Bold
 
@@ -113,7 +112,7 @@ font:
 
     # family: "Hack"
   # Point size of the font
-  size: 15.0
+  size: 16.0
 
   # Offset is the extra space around each character. offset.y can be thought of
   # as modifying the linespacing, and offset.x as modifying the letter spacing.
