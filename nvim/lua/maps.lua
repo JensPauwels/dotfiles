@@ -47,10 +47,7 @@ vim.api.nvim_set_keymap('n', '<Leader>j', 'ddp', { noremap = true })
 vim.api.nvim_set_keymap('n', '<Leader>e', ':Telescope diagnostics<cr>', { noremap = true})
 
 -- Keybinds to trigger my custom plugins
-vim.api.nvim_set_keymap('n', '<Leader>file', ":lua require('createFile').start();<CR>", { noremap = true })
 vim.api.nvim_set_keymap('n', '<Leader>model', ":lua require('modelCreator').start();<CR>", { noremap = true })
-vim.api.nvim_set_keymap('n', '<Leader>gtest', ":lua require('testCreator').start();<CR>", { noremap = true })
-vim.api.nvim_set_keymap('n', '<Leader>list', ":lua require('overviewCustomPlugins').start();<CR>", { noremap = true })
 
 -- vim.o.updatetime = 150
 -- vim.cmd([[autocmd CursorHold,CursorHoldI * lua vim.diagnostic.open_float(nil, { focus = false, border = "single" })]])

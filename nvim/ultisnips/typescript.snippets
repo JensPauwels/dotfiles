@@ -37,15 +37,17 @@ $2
 endsnippet
 
 snippet store "New store" w
-import { observable, decorate } from 'mobx';
+import { observable, makeObservable } from 'mobx';
 
 class $1 {
-  $2
+	constructor() {
+		$2
+
+		makeObservable(this, {
+
+		})
+	}
 }
-
-decorate(${1:}, {
-
-});
 
 export default new ${1:}();
 endsnippet
