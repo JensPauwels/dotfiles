@@ -131,8 +131,6 @@ font:
   # OS X only: use thin stroke font rendering. Thin strokes are suitable
   # for retina displays, but for non-retina you probably want this set to
   # false.
-  use_thin_strokes: false
-
 debug:
   # Display the time it takes to redraw each frame.
   render_timer: false
@@ -184,7 +182,7 @@ visual_bell:
   duration: 0
 
 # Background opacity
-background_opacity: 1.0
+window.opactiy: 1.0
 
 # Mouse bindings
 #
