@@ -1,0 +1,29 @@
+# /Users/jenspauwels/.config/tmuxinator/bluecherry-blueapp.yml
+
+name: bc-go-blueapp
+root: ~/
+
+windows:
+  - bclib:
+      layout: main-horizontal
+      panes:
+        - editor:
+          - cd ~/Documents/dev/BLUECHERRY/bc-go/bc-golib/
+          - nvim .
+
+  - dptlib:
+      layout: main-horizontal
+      panes:
+        - editor:
+          - cd ~/Documents/dev/DPT_GO/dpt-golib/
+          - nvim .
+
+  - bc-blueapp:
+      layout: main-horizontal
+      panes:
+        - editor:
+          - cd ~/Documents/dev/BLUECHERRY/bc-go/bc-blueapp/
+          - nvim .
+        - start:
+          - cd ~/Documents/dev/BLUECHERRY/bc-go/bc-blueapp/
+          - MODE=DEVELOPMENT go run main.go
