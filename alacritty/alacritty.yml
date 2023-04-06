@@ -86,9 +86,10 @@ font:
     # family: "FiraMono Nerd Font Mono"
     # family: Victor Mono
     # family: Jetbrains Mono
-    family: FuraMono Nerd Font
-    # family: JetbrainsMono Nerd Font Mono
+    # family: FuraMono Nerd Font
+    family: JetbrainsMono Nerd Font Mono
     # family: "Hack"
+    style: Regular
 
   # The bold font face
   bold:
