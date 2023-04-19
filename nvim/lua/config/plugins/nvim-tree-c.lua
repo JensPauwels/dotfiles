@@ -1,8 +1,23 @@
+-- return {
+--     "nvim-tree/nvim-tree.lua",
+--     config = function()
+--         require("nvim-tree").setup({
+--           filters = {},
+--         })
+--     end
+-- }
+--
+
 return {
-    "nvim-tree/nvim-tree.lua",
-    config = function()
-        require("nvim-tree").setup({
-          filters = {},
-        })
-    end
+  "nvim-neo-tree/neo-tree.nvim",
+  dependencies = {
+    "nvim-lua/plenary.nvim",
+    "nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
+    "MunifTanjim/nui.nvim",
+  },
+  config = function()
+    require("neo-tree").setup({
+      close_floats_on_escape_key = true,
+    })
+  end
 }

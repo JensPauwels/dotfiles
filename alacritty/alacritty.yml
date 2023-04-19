@@ -89,7 +89,7 @@ font:
     # family: FuraMono Nerd Font
     family: JetbrainsMono Nerd Font Mono
     # family: "Hack"
-    style: Regular
+    style: Light
 
   # The bold font face
   bold:
@@ -97,6 +97,7 @@ font:
     # family: Victor Mono
     # family: Jetbrains Mono
     family: JetbrainsMono Nerd Font Mono
+    # family: FuraMono Nerd Font
     # family: "Hack"
     # family: "Hack"
     style: Bold
@@ -113,7 +114,7 @@ font:
 
     # family: "Hack"
   # Point size of the font
-  size: 15.0
+  size: 16
 
   # Offset is the extra space around each character. offset.y can be thought of
   # as modifying the linespacing, and offset.x as modifying the letter spacing.
@@ -253,7 +254,7 @@ draw_bold_text_with_bright_colors: true
 colors:
   # Default colors
   primary:
-    background: '#1E1E2E'
+    background: '#202229'
     foreground: '#cbccc6'
     bright_foreground: '#f28779'
 
