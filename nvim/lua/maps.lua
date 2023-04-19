@@ -1,5 +1,5 @@
 -- Keybind to open the file navigator
-vim.api.nvim_set_keymap('n', '<Leader>n', ':NvimTreeToggle<CR>', {})
+vim.api.nvim_set_keymap('n', '<Leader>n', ':NeoTreeFloatToggle<CR>', {})
 -- vim.api.nvim_set_keymap( "n", "<Leader>n", ":Telescope file_browser<cr>", { noremap = true })
 
 -- Keybind to replace
@@ -32,6 +32,9 @@ vim.api.nvim_set_keymap('n', '<Leader>fb', '<cmd>Telescope buffers<cr>', { norem
 -- Opens the telescope file finder
 vim.api.nvim_set_keymap('n', '<C-p>', '<cmd>Telescope find_files<cr>', { noremap = true })
 
+-- Opens a list with all the active buffers
+vim.api.nvim_set_keymap('n', '<Leader>b', '<cmd>Telescope buffers<cr>', { noremap = true })
+
 -- Keybinds to create a new tab
 vim.api.nvim_set_keymap('n', 'tnew', ':tabnew<cr>', { noremap = true })
 
@@ -54,3 +57,5 @@ vim.api.nvim_set_keymap('n', '<Leader>model', ":lua require('modelCreator').star
 
 -- TMP
 vim.api.nvim_set_keymap('n', '<F12>', ':FloatermToggle<CR>', { noremap = true, silent = true })
+
+

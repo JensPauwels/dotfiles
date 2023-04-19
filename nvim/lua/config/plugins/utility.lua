@@ -6,15 +6,12 @@ return {
   'rebelot/kanagawa.nvim',
   'Shatur/neovim-ayu',
   'catppuccin/nvim',
-  "loctvl842/monokai-pro.nvim",
+  'loctvl842/monokai-pro.nvim',
 
   -- Highlighting
   'folke/lsp-colors.nvim',
   'ap/vim-css-color',
   'maxmellon/vim-jsx-pretty',
-
-  -- Statusline
-  'nvim-lualine/lualine.nvim',
 
   -- Completion
   { 
@@ -42,6 +39,7 @@ return {
   'ervandew/supertab',
   'tpope/vim-surround',
 
+
   -- FZF is required for my custom plugins
   'vijaymarupudi/nvim-fzf',
 
@@ -57,8 +55,6 @@ return {
   -- snippets
   'SirVer/ultisnips' ,
 
-  -- tabline
-  'mkitt/tabline.vim',
 
   { 
     'nvim-telescope/telescope.nvim',
