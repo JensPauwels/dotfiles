@@ -49,11 +49,11 @@ return {
   -- Commentary
   'tpope/vim-commentary',
 
-  -- git
-  'folke/trouble.nvim',
-
   -- snippets
   'SirVer/ultisnips' ,
+  
+  -- LazyGit
+  'kdheepak/lazygit.nvim',
 
 
   { 

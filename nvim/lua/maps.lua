@@ -46,8 +46,8 @@ vim.api.nvim_set_keymap('n', '<Leader>k', 'ddkP', { noremap = true })
 vim.api.nvim_set_keymap('n', '<Leader>j', 'ddp', { noremap = true })
 
 -- Lsp maps
--- vim.api.nvim_set_keymap('n', '<Leader>e', '<cmd>lua vim.diagnostic.open_float()<cr>', { noremap = true})
-vim.api.nvim_set_keymap('n', '<Leader>e', ':Telescope diagnostics<cr>', { noremap = true})
+vim.api.nvim_set_keymap('n', '<Leader>e', '<cmd>lua vim.diagnostic.open_float()<cr>', { noremap = true})
+-- vim.api.nvim_set_keymap('n', '<Leader>e', ':Telescope diagnostics<cr>', { noremap = true})
 
 -- Keybinds to trigger my custom plugins
 vim.api.nvim_set_keymap('n', '<Leader>model', ":lua require('modelCreator').start();<CR>", { noremap = true })
