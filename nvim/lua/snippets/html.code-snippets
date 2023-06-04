@@ -1,0 +1,28 @@
+
+{
+  "Anon function": {
+    "prefix": "af",
+      "body": [
+        "$1 = () => {",
+      "\t$2",
+      "};"
+      ],
+      "description": "Anon function"
+  },
+    "const anon function": {
+      "prefix": "caf",
+      "body": [
+        "const $1 = () => {",
+      "\t$0",
+      "};"
+      ],
+      "description": "const anon function"
+    },
+    "console log": {
+      "prefix": "cl",
+      "body": [
+        "console.log($0)"
+      ],
+      "description": "console log"
+    }
+}
