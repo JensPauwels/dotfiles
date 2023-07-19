@@ -22,4 +22,12 @@ vim.o.ignorecase = true
 -- Place a line at 100 characters
 vim.cmd("set colorcolumn=100")
 
+-- Make the buffer on the right active when splitting
+vim.o.splitright = true
+
+-- Make the buffer on the bottom active when splitting
+vim.o.splitbelow = true
+
 vim.o.completeopt = "menuone,noinsert,noselect"
+
+vim.o.smartindent = true
