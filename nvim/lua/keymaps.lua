@@ -11,6 +11,11 @@ vim.keymap.set("n", "<leader>n", function()
 	vim.api.nvim_command("NeoTreeShowToggle")
 end, {})
 
+-- Rename
+vim.keymap.set("n", "<leader>r", function()
+	vim.api.nvim_command("lua vim.lsp.buf.rename()")
+end, {})
+
 -- Keybind to replace
 vim.keymap.set("v", "r", '"_dP', {})
 
