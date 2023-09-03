@@ -1,0 +1,47 @@
+# /Users/jenspauwels/.config/tmuxinator/wedding.yml
+
+name: 'wedding'
+root: ~/
+
+windows:
+  - wedding-go:
+      layout: main-horizontal
+      panes:
+        - editor:
+          - cd ~/Documents/dev/PRIVATE_PROJECTS/WEDDING/wedding-go
+          - nvim .
+        - start:
+          - cd ~/Documents/dev/PRIVATE_PROJECTS/WEDDING/wedding-go
+          - MODE=DEVELOPMENT go run *.go
+
+  - wedding-ui:
+      layout: main-horizontal
+      panes:
+        - editor:
+          - cd ~/Documents/dev/PRIVATE_PROJECTS/WEDDING/wedding-ui
+          - nvim .
+        - start:
+          - cd ~/Documents/dev/PRIVATE_PROJECTS/WEDDING/wedding-ui
+          - yarn dev
+
+  - wedding-sso:
+      layout: main-horizontal
+      panes:
+        - editor:
+          - cd ~/Documents/dev/PRIVATE_PROJECTS/WEDDING/wedding-sso/
+          - nvim .
+        - start:
+          - cd ~/Documents/dev/PRIVATE_PROJECTS/WEDDING/wedding-sso/
+          - yarn dev
+
+
+  - wedding-admin:
+      layout: main-horizontal
+      panes:
+        - editor:
+          - cd ~/Documents/dev/PRIVATE_PROJECTS/WEDDING/wedding-admin-ui/
+          - nvim .
+        - start:
+          - cd ~/Documents/dev/PRIVATE_PROJECTS/WEDDING/wedding-admin-ui/
+          - yarn dev
+
