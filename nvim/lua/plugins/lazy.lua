@@ -11,4 +11,8 @@ return {
 	"iamcco/markdown-preview.nvim",
 
 	"norcalli/nvim-colorizer.lua",
+
+	"sindrets/diffview.nvim",
+
+	"f-person/git-blame.nvim",
 }

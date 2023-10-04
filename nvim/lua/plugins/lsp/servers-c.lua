@@ -28,7 +28,6 @@ local servers = {
 		disable_formatting = false,
 	},
 	dockerls = {},
-	gopls = {},
 	cssls = {},
 }
 
