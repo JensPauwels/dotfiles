@@ -15,4 +15,6 @@ return {
 	"sindrets/diffview.nvim",
 
 	"f-person/git-blame.nvim",
+
+  "tpope/vim-fugitive"
 }
