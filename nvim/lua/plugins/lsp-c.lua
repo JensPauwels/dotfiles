@@ -44,7 +44,7 @@ return {
 			local nls = require("null-ls")
 			nls.setup({
 				sources = {
-					nls.builtins.formatting.stylua,
+					nls.builtins.diagnostics.eslint,
 					nls.builtins.formatting.prettier,
 					nls.builtins.diagnostics.ruff.with({ extra_args = { "--max-line-length=180" } }),
 				},
