@@ -1,18 +1,6 @@
 local M = {}
 
 local servers = {
-	pyright = {
-		settings = {
-			python = {
-				analysis = {
-					typeCheckingMode = "off",
-					autoSearchPaths = true,
-					useLibraryCodeForTypes = true,
-					diagnosticMode = "workspace",
-				},
-			},
-		},
-	},
 	rust_analyzer = {
 		settings = {
 			["rust-analyzer"] = {
@@ -24,11 +12,6 @@ local servers = {
 			},
 		},
 	},
-	tsserver = {
-		disable_formatting = false,
-	},
-	dockerls = {},
-	cssls = {},
 }
 
 local function lsp_attach(on_attach)
