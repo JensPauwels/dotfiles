@@ -8,7 +8,7 @@ vim.keymap.set("n", "<leader>fh", builtin.help_tags, {})
 
 -- Keybind to open the file navigator
 vim.keymap.set("n", "<leader>n", function()
-	vim.api.nvim_command("NeoTreeShowToggle")
+	vim.api.nvim_command("Neotree toggle")
 end, {})
 
 -- Rename
@@ -45,5 +45,5 @@ end, { noremap = true })
 
 -- Opens the telescope file finder
 vim.keymap.set("n", "<C-p>", function()
-	vim.api.nvim_command("Telescope find_files")
+	vim.api.nvim_command("lua require'telescope.builtin'.find_files({ find_command = {'rg', '--files', '--hidden', '-g', '!.git' }})")
 end, { noremap = true })
