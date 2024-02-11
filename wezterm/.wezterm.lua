@@ -15,7 +15,7 @@ end
 -- For example, changing the color scheme:
 config.color_scheme = 'Tokyo Night'
 
-config.font_size = 15
+config.font_size = 18
 
 config.enable_tab_bar = false;
 
