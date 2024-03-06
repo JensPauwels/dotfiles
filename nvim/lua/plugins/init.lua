@@ -254,8 +254,12 @@ if #config.plugins > 0 then
 end
 
 require("lazy").setup(default_plugins, config.lazy_nvim)
+
 vim.keymap.set("v", "r", '"_dP', {})
 
 vim.keymap.set("n", "<leader>r", function()
 	vim.api.nvim_command("lua vim.lsp.buf.rename()")
 end, {})
+
+vim.api.nvim_set_keymap("n", "<Leader>k", "ddkP", { noremap = true })
+vim.api.nvim_set_keymap("n", "<Leader>j", "ddp", { noremap = true })
