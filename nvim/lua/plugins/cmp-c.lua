@@ -3,6 +3,12 @@ return {
 	version = false,
 	event = { "InsertEnter", "CmdlineEnter" },
 	dependencies = {
+    {
+      "zbirenbaum/copilot-cmp",
+      config = function()
+        require("copilot_cmp").setup()
+      end,
+    },
 		"hrsh7th/cmp-nvim-lsp-signature-help",
 		"hrsh7th/cmp-nvim-lsp",
 		"hrsh7th/cmp-buffer",
