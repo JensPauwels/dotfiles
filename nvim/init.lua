@@ -13,7 +13,11 @@ local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
  end
 
 vim.opt.runtimepath:prepend(lazypath)
+vim.opt.termguicolors = true
 
 require("lazy").setup("plugins", {})
 require("style")
 require("keymaps")
+
+-- require("bufferline").setup{}
+
