@@ -23,7 +23,6 @@ return {
 		keys = { { "<leader>cm", "<cmd>Mason<cr>", desc = "Mason" } },
 		ensure_installed = {
 			"stylua",
-			"ruff",
 		},
 		config = function(plugin)
 			require("mason").setup()
@@ -37,28 +36,18 @@ return {
 		end,
 	},
 	{
-		"jose-elias-alvarez/null-ls.nvim",
+		"nvimtools/none-ls.nvim",
 		event = "BufReadPre",
 		dependencies = { "mason.nvim" },
 		config = function()
 			local nls = require("null-ls")
 			nls.setup({
 				sources = {
-					nls.builtins.diagnostics.eslint,
+					nls.builtins.formatting.stylua,
+					nls.builtins.diagnostics.eslint_d,
 					nls.builtins.formatting.prettier,
-					nls.builtins.diagnostics.ruff.with({ extra_args = { "--max-line-length=180" } }),
 				},
 			})
 		end,
-	},
-	{
-		"utilyre/barbecue.nvim",
-		event = "VeryLazy",
-		dependencies = {
-			"neovim/nvim-lspconfig",
-			"SmiteshP/nvim-navic",
-			"nvim-tree/nvim-web-devicons",
-		},
-		config = true,
 	},
 }

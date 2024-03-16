@@ -8,13 +8,5 @@ return {
 
 	"MaxMEllon/vim-jsx-pretty",
 
-	"norcalli/nvim-colorizer.lua",
-
 	"sindrets/diffview.nvim",
-
-	"f-person/git-blame.nvim",
-
-  "tpope/vim-fugitive",
-
-  "zbirenbaum/copilot.lua"
 }
