@@ -31,3 +31,5 @@ vim.o.splitbelow = true
 vim.o.completeopt = "menuone,noinsert,noselect"
 
 vim.o.smartindent = true
+
+vim.o.lazyredraw = true
