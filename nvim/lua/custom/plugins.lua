@@ -138,6 +138,20 @@ local plugins = {
       "ibhagwan/fzf-lua",              -- optional
     },
     config = true
+  },
+  {
+    lazy = false,
+    "vim-test/vim-test",
+  },
+  {
+    lazy = false,
+    "andythigpen/nvim-coverage",
+    dependencies = {
+      "nvim-lua/plenary.nvim"
+    },
+    config = function()
+      require("coverage").setup()
+    end,
   }
 }
 return plugins
