@@ -150,8 +150,45 @@ local plugins = {
       "nvim-lua/plenary.nvim"
     },
     config = function()
-      require("coverage").setup()
+      require("coverage").setup({
+        auto_reload = true,
+        commands = true, -- create commands
+        highlights = {
+          -- customize highlight groups created by the plugin
+          covered = { fg = "#C3E88D", bg = "#C3E88D" },   -- supports style, fg, bg, sp (see :h highlight-gui)
+          uncovered = { fg = "#F07178", bg = "#F07178" },
+        },
+        signs = {
+          -- use your own highlight groups or text markers
+          covered = { hl = "CoverageCovered", text = "▎" },
+          uncovered = { hl = "CoverageUncovered", text = "▎" },
+        }
+      })
     end,
+  },
+  {
+    lazy = false,
+    'pwntester/octo.nvim',
+    dependencies = {
+      'nvim-lua/plenary.nvim',
+      'nvim-telescope/telescope.nvim',
+      -- OR 'ibhagwan/fzf-lua',
+      'nvim-tree/nvim-web-devicons',
+    },
+    config = function ()
+      require"octo".setup({
+        suppress_missing_scope = {
+          project_v2 = true,
+        }
+      })
+    end
+  },
+  {
+    lazy = false,
+    'akinsho/git-conflict.nvim',
+    config = function()
+      require("git-conflict").setup()
+    end
   }
 }
 return plugins
