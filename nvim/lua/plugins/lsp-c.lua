@@ -35,19 +35,4 @@ return {
 			end
 		end,
 	},
-	{
-		"nvimtools/none-ls.nvim",
-		event = "BufReadPre",
-		dependencies = { "mason.nvim" },
-		config = function()
-			local nls = require("null-ls")
-			nls.setup({
-				sources = {
-					nls.builtins.formatting.stylua,
-					nls.builtins.diagnostics.eslint_d,
-					nls.builtins.formatting.prettier,
-				},
-			})
-		end,
-	},
 }

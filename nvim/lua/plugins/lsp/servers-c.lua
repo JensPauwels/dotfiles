@@ -1,8 +1,8 @@
 local M = {}
 
 local servers = {
-  "lua_ls",
-  "tsserver"
+	"lua_ls",
+	"tsserver",
 }
 
 local function lsp_attach(on_attach)
@@ -22,7 +22,6 @@ end
 
 function M.setup(_)
 	lsp_attach(function(client, buffer)
-		require("plugins.lsp.format").on_attach(client, buffer)
 		require("plugins.lsp.keymaps").on_attach(client, buffer)
 	end)
 
