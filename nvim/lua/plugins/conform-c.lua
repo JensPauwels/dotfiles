@@ -5,7 +5,8 @@ return {
 			formatters_by_ft = {
 				go = { "goimports", "gofmt" },
 				lua = { "stylua" },
-				javascript = { { "prettierd", "prettier" } },
+				javascript = { { "prettierd" } },
+				typescript = { { "prettier" } },
 			},
 			format_on_save = {
 				-- These options will be passed to conform.format()
