@@ -9,4 +9,8 @@ return {
 	"MaxMEllon/vim-jsx-pretty",
 
 	"sindrets/diffview.nvim",
+
+	"f-person/git-blame.nvim",
+
+	"vim-test/vim-test",
 }
