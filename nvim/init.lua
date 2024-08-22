@@ -14,6 +14,8 @@ end
 
 vim.opt.runtimepath:prepend(lazypath)
 vim.opt.termguicolors = true
+vim.o.background = "light" -- or 'light'
+
 require("lazy").setup("plugins", {})
 require("style")
 require("keymaps")
