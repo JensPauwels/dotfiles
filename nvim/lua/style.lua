@@ -1,2 +1,2 @@
 -- Set the theme
-vim.cmd("colorscheme tokyonight-moon")
+vim.cmd("colorscheme xcodelight")
