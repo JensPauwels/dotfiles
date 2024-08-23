@@ -1,0 +1,52 @@
+# /Users/jenspauwels/.config/tmuxinator/mortex.yml
+
+name: 'mortex'
+root: ~/
+
+windows:
+  - go-api:
+      layout: main-horizontal
+      panes:
+        - editor:
+          - cd ~/Documents/dev/PRIVATE_PROJECTS/MORTEX/go-api/
+          - nvim .
+        - start:
+          - cd ~/Documents/dev/PRIVATE_PROJECTS/MORTEX/go-api/
+          - MODE=DEVELOPMENT air
+
+  - admin-ui:
+      layout: main-horizontal
+      panes:
+        - editor:
+          - cd ~/Documents/dev/PRIVATE_PROJECTS/MORTEX/admin-ui
+          - nvim .
+        - start:
+          - cd ~/Documents/dev/PRIVATE_PROJECTS/MORTEX/admin-ui
+          - pnpm dev
+
+  - sso-ui:
+      layout: main-horizontal
+      panes:
+        - editor:
+          - cd ~/Documents/dev/PRIVATE_PROJECTS/MORTEX/sso-ui/
+          - nvim .
+        - start:
+          - cd ~/Documents/dev/PRIVATE_PROJECTS/MORTEX/sso-ui/
+          - pnpm dev
+
+  - website:
+      layout: main-horizontal
+      panes:
+        - editor:
+          - cd ~/Documents/dev/PRIVATE_PROJECTS/MORTEX/website/
+          - nvim .
+        - start:
+          - cd ~/Documents/dev/PRIVATE_PROJECTS/MORTEX/website/
+          - pnpm dev
+
+  - docs:
+      layout: main-horizontal
+      panes:
+        - editor:
+          - cd ~/notes/MORTEX/
+          - nvim .
