@@ -13,7 +13,7 @@ end
 -- This is where you actually apply your config choices
 
 -- For example, changing the color scheme:
-config.color_scheme = "One Light (Gogh)"
+config.color_scheme = "catppuccin-frappe"
 
 config.font_size = 15
 
