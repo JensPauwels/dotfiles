@@ -49,5 +49,5 @@ end, { noremap = true })
 
 -- Opens the telescope file finder
 vim.keymap.set("n", "<C-p>", function()
-	vim.api.nvim_command("lua require'telescope.builtin'.find_files()")
+	vim.api.nvim_command("FzfLua files")
 end, { noremap = true })
