@@ -20,6 +20,7 @@ config.font_size = 15
 config.enable_tab_bar = false
 
 config.font = wezterm.font("MonacoLigaturized Nerd Font Mono", { weight = "Bold", italic = false })
+-- config.font = wezterm.font("Menlo", { weight = "Bold" })
 
 -- and finally, return the configuration to wezterm
 return config
