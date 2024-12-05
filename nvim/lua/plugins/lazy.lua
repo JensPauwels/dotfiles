@@ -15,6 +15,6 @@ return {
 
 	"f-person/git-blame.nvim",
 
-	"vim-test/vim-test",
+	-- "vim-test/vim-test",
 	"sainnhe/everforest",
 }

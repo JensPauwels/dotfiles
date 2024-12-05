@@ -8,40 +8,40 @@ windows:
       layout: main-horizontal
       panes:
         - editor:
-          - cd ~/Documents/dev/PRIVATE_PROJECTS/MORTEX/go-api/
+          - cd ~/Documents/dev/PRIVATE_PROJECTS/DIY-ATELIER/go-api/
           - nvim .
         - start:
-          - cd ~/Documents/dev/PRIVATE_PROJECTS/MORTEX/go-api/
+          - cd ~/Documents/dev/PRIVATE_PROJECTS/DIY-ATELIER/go-api/
           - MODE=DEVELOPMENT air
 
   - admin-ui:
       layout: main-horizontal
       panes:
         - editor:
-          - cd ~/Documents/dev/PRIVATE_PROJECTS/MORTEX/admin-ui
+          - cd ~/Documents/dev/PRIVATE_PROJECTS/DIY-ATELIER/admin-ui
           - nvim .
         - start:
-          - cd ~/Documents/dev/PRIVATE_PROJECTS/MORTEX/admin-ui
+          - cd ~/Documents/dev/PRIVATE_PROJECTS/DIY-ATELIER/admin-ui
           - pnpm dev
 
   - sso-ui:
       layout: main-horizontal
       panes:
         - editor:
-          - cd ~/Documents/dev/PRIVATE_PROJECTS/MORTEX/sso-ui/
+          - cd ~/Documents/dev/PRIVATE_PROJECTS/DIY-ATELIER/sso-ui/
           - nvim .
         - start:
-          - cd ~/Documents/dev/PRIVATE_PROJECTS/MORTEX/sso-ui/
+          - cd ~/Documents/dev/PRIVATE_PROJECTS/DIY-ATELIER/sso-ui/
           - pnpm dev
 
   - website:
       layout: main-horizontal
       panes:
         - editor:
-          - cd ~/Documents/dev/PRIVATE_PROJECTS/MORTEX/website/
+          - cd ~/Documents/dev/PRIVATE_PROJECTS/DIY-ATELIER/website/
           - nvim .
         - start:
-          - cd ~/Documents/dev/PRIVATE_PROJECTS/MORTEX/website/
+          - cd ~/Documents/dev/PRIVATE_PROJECTS/DIY-ATELIER/website/
           - pnpm dev
 
   - docs:

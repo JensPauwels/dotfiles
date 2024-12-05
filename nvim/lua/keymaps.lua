@@ -51,3 +51,16 @@ end, { noremap = true })
 vim.keymap.set("n", "<C-p>", function()
 	vim.api.nvim_command("FzfLua files")
 end, { noremap = true })
+
+-- Keymaps for testing
+vim.keymap.set("n", "<Leader>tf", function()
+	vim.api.nvim_command('lua require("neotest").run.run(vim.fn.expand("%"))')
+end, { noremap = true })
+
+vim.keymap.set("n", "<Leader>tn", function()
+	vim.api.nvim_command('lua require("neotest").run.run()')
+end, { noremap = true })
+
+vim.keymap.set("n", "<Leader>td", function()
+	vim.api.nvim_command('lua require("neotest").run.run({strategy = "dap"})')
+end, { noremap = true })
