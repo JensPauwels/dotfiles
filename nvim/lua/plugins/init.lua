@@ -4,6 +4,7 @@ local default_plugins = {
 
   "tpope/vim-surround",
   "nvim-lua/plenary.nvim",
+  "nvim-neotest/nvim-nio",
 
   {
     "NvChad/base46",
