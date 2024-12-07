@@ -13,14 +13,13 @@ end
 -- This is where you actually apply your config choices
 
 -- For example, changing the color scheme:
-config.color_scheme = "tokyonight-storm"
+config.color_scheme = "Tokyo Night"
 
-config.font_size = 15
+config.font_size = 18
 
 config.enable_tab_bar = false
 
-config.font = wezterm.font("MonacoLigaturized Nerd Font Mono", { weight = "Bold", italic = false })
--- config.font = wezterm.font("Menlo", { weight = "Bold" })
+config.font = wezterm.font("JetBrains Mono", { weight = "Bold", italic = true })
 
 -- and finally, return the configuration to wezterm
 return config
