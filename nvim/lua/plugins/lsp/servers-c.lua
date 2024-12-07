@@ -2,7 +2,7 @@ local M = {}
 
 local servers = {
 	"lua_ls",
-	"tsserver",
+	"ts_ls",
 }
 
 local function lsp_attach(on_attach)
