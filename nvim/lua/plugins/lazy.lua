@@ -1,7 +1,6 @@
 return {
 	"folke/tokyonight.nvim",
 	"maxmx03/solarized.nvim",
-	"lunacookies/vim-colors-xcode",
 	"catppuccin/nvim",
 	"tpope/vim-abolish",
 	"tpope/vim-surround",

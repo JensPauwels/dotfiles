@@ -3,12 +3,12 @@ return {
 	version = false,
 	event = { "InsertEnter", "CmdlineEnter" },
 	dependencies = {
-    {
-      "zbirenbaum/copilot-cmp",
-      config = function()
-        require("copilot_cmp").setup()
-      end,
-    },
+		{
+			"zbirenbaum/copilot-cmp",
+			config = function()
+				require("copilot_cmp").setup()
+			end,
+		},
 		"hrsh7th/cmp-nvim-lsp-signature-help",
 		"hrsh7th/cmp-nvim-lsp",
 		"hrsh7th/cmp-buffer",
@@ -30,10 +30,10 @@ return {
 			completion = {
 				completeopt = "menu,menuone,noinsert",
 			},
-      performance = {
-        debounce = 0, -- default is 60ms
-        throttle = 0, -- default is 30ms
-      },
+			performance = {
+				debounce = 0, -- default is 60ms
+				throttle = 0, -- default is 30ms
+			},
 			snippet = {
 				expand = function(args)
 					require("luasnip").lsp_expand(args.body)
@@ -61,7 +61,7 @@ return {
 				end),
 			}),
 			sources = cmp.config.sources({
-        { name = "copilot" },
+				{ name = "copilot" },
 				{ name = "nvim_lsp" },
 				{ name = "nvim_lsp_signature_help" },
 				{ name = "luasnip" },
@@ -89,6 +89,11 @@ return {
 				end,
 			},
 			experimental = { ghost_text = true },
+			-- Add borders for completion and documentation
+			window = {
+				completion = cmp.config.window.bordered(),
+				documentation = cmp.config.window.bordered(),
+			},
 		}
 	end,
 }
