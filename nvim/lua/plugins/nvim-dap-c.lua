@@ -3,12 +3,6 @@ return {
 	dependencies = {
 		"rcarriga/nvim-dap-ui",
 		"leoluz/nvim-dap-go", -- Plugin specifically for Go debugging
-		-- {
-		-- 	"microsoft/vscode-js-debug",
-		-- 	opt = true,
-		-- 	build = "npm install --legacy-peer-deps && npx gulp vsDebugServerBundle && mv dist out", -- Correct build command
-		-- },
-		-- "mxsdev/nvim-dap-vscode-js",
 	},
 	config = function()
 		local dap, dapui = require("dap"), require("dapui")
@@ -20,13 +14,6 @@ return {
 		dapui.setup()
 
 		dap.set_log_level("TRACE")
-
-		-- 		-- Setup nvim-dap-vscode-js for JavaScript and TypeScript
-		-- 		dap_vscode_js.setup({
-		-- 			node_path = "node", -- Path of node executable, defaults to $NODE_PATH or "node"
-		-- 			debugger_path = "/Users/jenspauwels/.local/share/nvim/lazy/vscode-js-debug", -- Adjust the path to where the debugger is installed
-		-- 			adapters = { "pwa-node", "pwa-chrome", "pwa-msedge" }, -- Which adapters to register
-		-- 		})
 
 		-- Open DAP UI before events
 		dap.listeners.before.event_initialized["dapui_config"] = function()

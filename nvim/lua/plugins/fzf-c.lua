@@ -4,12 +4,6 @@ return {
 	dependencies = { "nvim-tree/nvim-web-devicons" },
 	config = function()
 		-- calling `setup` is optional for customization
-		require("fzf-lua").setup({
-			winopts = {
-				preview = {
-					default = "false", -- hide preview window
-				},
-			},
-		})
+		require("fzf-lua").setup()
 	end,
 }
