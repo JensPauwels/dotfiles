@@ -1,24 +1,21 @@
 return {
-	"nvim-neo-tree/neo-tree.nvim",
+	"nvim-tree/nvim-tree.lua",
 	dependencies = {
-		"nvim-lua/plenary.nvim",
-		"nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
-		"MunifTanjim/nui.nvim",
+		"nvim-tree/nvim-web-devicons", -- optional, for file icons
 	},
-  opts = {
-    filesystem = {
-      filtered_items = {
-	 visible = true,
-	 show_hidden_count = true,
-	 hide_dotfiles = false,
-	 hide_gitignored = true,
-	 hide_by_name = {
-	   -- '.git',
-	   -- '.DS_Store',
-	   -- 'thumbs.db',
-	 },
-	never_show = {},
-      },
-    }
-  }
+	opts = {
+		filters = {
+			dotfiles = false, -- Show dotfiles
+			custom = { ".git", ".DS_Store", "thumbs.db" }, -- Add specific names to hide
+		},
+		git = {
+			ignore = true, -- Hide gitignored files
+		},
+		renderer = {
+			highlight_git = true, -- Highlight git changes
+		},
+		view = {
+			adaptive_size = true, -- Automatically resize tree view
+		},
+	},
 }

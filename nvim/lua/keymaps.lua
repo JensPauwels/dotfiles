@@ -1,7 +1,7 @@
 local builtin = require("telescope.builtin")
 
 vim.keymap.set("n", "<leader>s", function()
-	vim.command("Neotree filesystem reveal left")
+	vim.api.nvim_command("NvimTreeFindFile")
 end, {})
 
 -- Enable easy access to some telescope functions
@@ -12,7 +12,7 @@ vim.keymap.set("n", "<leader>fh", builtin.help_tags, {})
 
 -- Keybind to open the file navigator
 vim.keymap.set("n", "<leader>n", function()
-	vim.api.nvim_command("Neotree toggle")
+	vim.api.nvim_command("NvimTreeToggle")
 end, {})
 
 -- Rename
