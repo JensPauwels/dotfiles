@@ -1,2 +1,2 @@
 -- Set the theme
-vim.cmd("colorscheme catppuccin")
+vim.cmd("colorscheme tokyonight-storm")
