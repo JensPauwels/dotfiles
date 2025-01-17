@@ -6,7 +6,7 @@ return {
 	opts = {
 		filters = {
 			dotfiles = false, -- Show dotfiles
-			custom = { ".git", ".DS_Store", "thumbs.db" }, -- Add specific names to hide
+			custom = { ".DS_Store", "thumbs.db" }, -- Add specific names to hide
 		},
 		git = {
 			ignore = true, -- Hide gitignored files

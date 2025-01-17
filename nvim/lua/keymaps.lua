@@ -49,7 +49,7 @@ end, { noremap = true })
 
 -- Opens the telescope file finder
 vim.keymap.set("n", "<C-p>", function()
-	vim.api.nvim_command("FzfLua files")
+	vim.api.nvim_command("lua Snacks.picker.git_files()")
 end, { noremap = true })
 
 -- Keymaps for testing
