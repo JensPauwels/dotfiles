@@ -49,7 +49,7 @@ end, { noremap = true })
 
 -- Opens the telescope file finder
 vim.keymap.set("n", "<C-p>", function()
-	vim.api.nvim_command("lua Snacks.picker.git_files()")
+	vim.api.nvim_command("lua Snacks.picker.files()")
 end, { noremap = true })
 
 -- Keymaps for testing
@@ -59,6 +59,14 @@ end, { noremap = true })
 
 vim.keymap.set("n", "<Leader>tn", function()
 	vim.api.nvim_command('lua require("neotest").run.run()')
+end, { noremap = true })
+
+vim.keymap.set("n", "<Leader>gc", function()
+	local current_file_dir = vim.fn.expand("%:p:h")
+	local coverage_file = "/coverage.out"
+	local command = string.format("GoCoverageOverlay %s%s", current_file_dir, coverage_file)
+	print("Generated command:", command)
+	vim.api.nvim_command(command)
 end, { noremap = true })
 
 vim.keymap.set("n", "<Leader>td", function()
