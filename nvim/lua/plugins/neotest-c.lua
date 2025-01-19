@@ -11,11 +11,19 @@ return {
 		"nvim-treesitter/nvim-treesitter",
 		"olimorris/neotest-phpunit",
 		"marilari88/neotest-vitest",
+		"andythigpen/nvim-coverage",
 	},
 	config = function()
+		require("coverage").setup({
+			auto_reload = true,
+			commands = true,
+		})
+
 		require("neotest").setup({
 			adapters = {
-				require("neotest-go"),
+				require("neotest-go")({
+					args = { "-coverpkg=./...", "-coverprofile=coverage.out" }, -- Add your custom flags here
+				}),
 				require("neotest-phpunit"),
 				require("neotest-vitest"),
 				require("neotest-jest")({
