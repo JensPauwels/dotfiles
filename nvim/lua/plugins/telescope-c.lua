@@ -9,9 +9,6 @@ return {
 					prompt_prefix = "> ",
 					selection_caret = "> ",
 					path_display = { "smart" },
-					preview = {
-						hide_on_startup = true, -- hide previewer when picker starts
-					},
 				},
 			})
 		end,
