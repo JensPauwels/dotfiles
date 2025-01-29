@@ -9,7 +9,7 @@ return {
 			custom = { ".DS_Store", "thumbs.db" }, -- Add specific names to hide
 		},
 		git = {
-			ignore = true, -- Hide gitignored files
+			ignore = false, -- Hide gitignored files
 		},
 		renderer = {
 			highlight_git = true, -- Highlight git changes
