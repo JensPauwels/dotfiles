@@ -14,6 +14,27 @@ local function lsp_capabilities()
 	return require("blink.cmp").get_lsp_capabilities(capabilities)
 end
 
+local function on_attach(client, bufnr)
+	local opts = { noremap = true, silent = true, buffer = bufnr }
+
+	-- Snacks keybindings
+	local Snacks = require("snacks")
+	vim.keymap.set("n", "<leader>ff", Snacks.picker.files, opts)
+	vim.keymap.set("n", "<leader>fg", Snacks.picker.grep, opts)
+	vim.keymap.set("n", "<leader>fb", Snacks.picker.buffers, opts)
+
+	vim.keymap.set("n", "gd", Snacks.picker.lsp_definitions, { desc = "Goto Definition", buffer = bufnr })
+	vim.keymap.set("n", "gr", Snacks.picker.lsp_references, { desc = "References", buffer = bufnr })
+	vim.keymap.set("n", "gD", Snacks.picker.lsp_declarations, { desc = "Goto Declaration", buffer = bufnr })
+	vim.keymap.set("n", "gI", Snacks.picker.lsp_implementations, { desc = "Goto Implementation", buffer = bufnr })
+	vim.keymap.set("n", "gb", Snacks.picker.lsp_type_definitions, { desc = "Goto Type Definition", buffer = bufnr })
+
+	-- Standard LSP keybindings
+	vim.keymap.set("n", "K", vim.lsp.buf.hover, { desc = "Hover", buffer = bufnr })
+	vim.keymap.set("n", "gK", vim.lsp.buf.signature_help, { desc = "Signature Help", buffer = bufnr })
+	vim.keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, { desc = "Code Action", buffer = bufnr })
+end
+
 function M.setup()
 	local mason_registry = require("mason-registry")
 	local mason_lspconfig = require("mason-lspconfig")
@@ -34,6 +55,7 @@ function M.setup()
 		function(server)
 			local opts = {
 				capabilities = lsp_capabilities(),
+				on_attach = on_attach,
 			}
 			require("lspconfig")[server].setup(opts)
 		end,

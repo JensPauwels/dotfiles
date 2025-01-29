@@ -2,22 +2,6 @@ vim.keymap.set("n", "<leader>s", function()
 	vim.api.nvim_command("NvimTreeFindFile")
 end, {})
 
--- Enable easy access to some snacks functions
-local Snacks = require("snacks")
-vim.keymap.set("n", "<leader>ff", Snacks.picker.files, {})
-vim.keymap.set("n", "<leader>fg", Snacks.picker.grep, {})
-vim.keymap.set("n", "<leader>fb", Snacks.picker.buffers, {})
-
-vim.keymap.set("n", "gd", Snacks.picker.lsp_definitions, { desc = "Goto Definition" })
-vim.keymap.set("n", "gr", Snacks.picker.lsp_references, { desc = "References" })
-vim.keymap.set("n", "gD", Snacks.picker.lsp_declarations, { desc = "Goto Declaration" })
-vim.keymap.set("n", "gI", Snacks.picker.lsp_implementations, { desc = "Goto Implementation" })
-vim.keymap.set("n", "gb", Snacks.picker.lsp_type_definitions, { desc = "Goto Type Definition" })
-
-vim.keymap.set("n", "K", vim.lsp.buf.hover, { desc = "Hover" })
-vim.keymap.set("n", "gK", vim.lsp.buf.signature_help, { desc = "Signature Help" })
-vim.keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, { desc = "Code Action" })
-
 -- Keybind to open the file navigator
 vim.keymap.set("n", "<leader>n", function()
 	vim.api.nvim_command("NvimTreeToggle")
