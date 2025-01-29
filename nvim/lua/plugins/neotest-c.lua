@@ -22,7 +22,7 @@ return {
 		require("neotest").setup({
 			adapters = {
 				require("neotest-go")({
-					args = { "-coverpkg=./...", "-coverprofile=coverage.out" }, -- Add your custom flags here
+					args = { "-coverpkg=./...", "-coverprofile=coverage.out" },
 				}),
 				require("neotest-phpunit"),
 				require("neotest-vitest"),
