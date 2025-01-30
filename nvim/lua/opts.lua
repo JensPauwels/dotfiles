@@ -36,3 +36,6 @@ vim.o.completeopt = "menuone,noinsert,noselect"
 vim.o.smartindent = true
 
 vim.o.lazyredraw = true
+
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1

@@ -15,10 +15,10 @@ local function lsp_capabilities()
 end
 
 local function on_attach(client, bufnr)
+	local Snacks = require("snacks")
 	local opts = { noremap = true, silent = true, buffer = bufnr }
 
 	-- Snacks keybindings
-	local Snacks = require("snacks")
 	vim.keymap.set("n", "<leader>ff", Snacks.picker.files, opts)
 	vim.keymap.set("n", "<leader>fg", Snacks.picker.grep, opts)
 	vim.keymap.set("n", "<leader>fb", Snacks.picker.buffers, opts)
