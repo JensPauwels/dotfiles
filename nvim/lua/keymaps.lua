@@ -64,3 +64,7 @@ end, { noremap = true })
 vim.keymap.set("n", "<Leader>td", function()
 	vim.api.nvim_command('lua require("neotest").run.run({strategy = "dap"})')
 end, { noremap = true })
+
+vim.api.nvim_create_user_command("LazyGit", function()
+	require("snacks").lazygit()
+end, {})
