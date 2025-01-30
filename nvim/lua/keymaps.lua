@@ -3,9 +3,11 @@ vim.keymap.set("n", "<leader>s", function()
 end, {})
 
 -- Keybind to open the file navigator
-vim.keymap.set("n", "<leader>n", function()
-	vim.api.nvim_command("NvimTreeToggle")
-end, {})
+local Snacks = require("snacks")
+local opts = { noremap = true, silent = true }
+
+-- Snacks keybindings
+vim.keymap.set("n", "<leader>n", Snacks.picker.explorer, opts)
 
 -- Rename
 vim.keymap.set("n", "<leader>r", function()
