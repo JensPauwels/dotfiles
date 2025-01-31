@@ -3,6 +3,7 @@ local M = {}
 local servers = {
 	"lua_ls",
 	"ts_ls",
+	"vtsls",
 }
 
 local tools = {
@@ -16,8 +17,6 @@ end
 
 local function on_attach(client, bufnr)
 	local Snacks = require("snacks")
-	local opts = { noremap = true, silent = true, buffer = bufnr }
-
 	vim.keymap.set("n", "gd", Snacks.picker.lsp_definitions, { desc = "Goto Definition", buffer = bufnr })
 	vim.keymap.set("n", "gr", Snacks.picker.lsp_references, { desc = "References", buffer = bufnr })
 	vim.keymap.set("n", "gD", Snacks.picker.lsp_declarations, { desc = "Goto Declaration", buffer = bufnr })
