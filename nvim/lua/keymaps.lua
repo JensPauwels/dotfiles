@@ -1,10 +1,9 @@
+local Snacks = require("snacks")
+local opts = { noremap = true, silent = true }
+
 vim.keymap.set("n", "<leader>s", function()
 	vim.api.nvim_command("NvimTreeFindFile")
 end, {})
-
--- Keybind to open the file navigator
-local Snacks = require("snacks")
-local opts = { noremap = true, silent = true }
 
 -- Snacks keybindings
 vim.keymap.set("n", "<leader>n", Snacks.picker.explorer, opts)
@@ -18,10 +17,10 @@ end, {})
 vim.keymap.set("v", "r", '"_dP', {})
 
 -- Make split navigation easier.
-vim.keymap.set("n", "<C-H>", "<C-W><C-H>", { noremap = true })
-vim.keymap.set("n", "<C-J>", "<C-W><C-J>", { noremap = true })
-vim.keymap.set("n", "<C-K>", "<C-W><C-K>", { noremap = true })
-vim.keymap.set("n", "<C-L>", "<C-W><C-L>", { noremap = true })
+vim.keymap.set("n", "<C-H>", "<C-W><C-H>", opts)
+vim.keymap.set("n", "<C-J>", "<C-W><C-J>", opts)
+vim.keymap.set("n", "<C-K>", "<C-W><C-K>", opts)
+vim.keymap.set("n", "<C-L>", "<C-W><C-L>", opts)
 
 -- Open a new tab
 vim.keymap.set("n", "tnew", function()
@@ -33,8 +32,8 @@ vim.keymap.set("n", "<Esc>", function()
 	vim.api.nvim_command("noh")
 end, { noremap = true })
 
-vim.api.nvim_set_keymap("n", "<Leader>k", "ddkP", { noremap = true })
-vim.api.nvim_set_keymap("n", "<Leader>j", "ddp", { noremap = true })
+vim.api.nvim_set_keymap("n", "<Leader>k", "ddkP", opts)
+vim.api.nvim_set_keymap("n", "<Leader>j", "ddp", opts)
 
 -- Open a diagnostic screen with the current error
 vim.keymap.set("n", "<Leader>e", function()
@@ -42,9 +41,7 @@ vim.keymap.set("n", "<Leader>e", function()
 end, { noremap = true })
 
 -- Opens the snacks file finder
-vim.keymap.set("n", "<C-p>", function()
-	vim.api.nvim_command("lua Snacks.picker.files()")
-end, { noremap = true })
+vim.keymap.set("n", "<C-p>", Snacks.picker.files, opts)
 
 -- Keymaps for testing
 vim.keymap.set("n", "<Leader>tf", function()
@@ -68,5 +65,9 @@ vim.keymap.set("n", "<Leader>td", function()
 end, { noremap = true })
 
 vim.api.nvim_create_user_command("LazyGit", function()
-	require("snacks").lazygit()
+	Snacks.lazygit()
 end, {})
+
+vim.keymap.set("n", "<leader>ff", Snacks.picker.files, opts)
+vim.keymap.set("n", "<leader>fg", Snacks.picker.grep, opts)
+vim.keymap.set("n", "<leader>fb", Snacks.picker.buffers, opts)

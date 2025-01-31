@@ -5,6 +5,9 @@ return {
 	},
 	version = "*",
 	opts = {
+		enabled = function()
+			return not vim.tbl_contains({ "snacks_picker_input" }, vim.bo.filetype)
+		end,
 		keymap = {
 			preset = "default",
 			["<Up>"] = { "select_prev", "fallback" },
