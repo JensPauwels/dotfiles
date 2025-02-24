@@ -71,3 +71,7 @@ end, {})
 vim.keymap.set("n", "<leader>ff", Snacks.picker.files, opts)
 vim.keymap.set("n", "<leader>fg", Snacks.picker.grep, opts)
 vim.keymap.set("n", "<leader>fb", Snacks.picker.buffers, opts)
+vim.keymap.set("n", "<leader>da", Snacks.picker.diagnostics, opts)
+
+-- Rest client
+vim.keymap.set("n", "<leader>tr", "<cmd>Rest run<CR>", opts)
