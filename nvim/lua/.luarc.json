@@ -4,5 +4,8 @@
         "/Applications/nvim-macos/share/nvim/runtime/lua",
         "/Users/jenspauwels/dotfiles/nvim/lua",
         "${3rd}/luv/library"
+    ],
+    "diagnostics.globals": [
+        "vim"
     ]
 }

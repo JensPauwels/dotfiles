@@ -21,23 +21,24 @@ return {
 			nerd_font_variant = "Nerd Font Mono",
 		},
 		snippets = { preset = "luasnip" },
-		sources = {
-			cmdline = {},
-			default = {
-				"lsp",
-				"path",
-				"snippets",
-				"buffer",
-				"copilot",
-			},
-			providers = {
-				copilot = {
-					name = "copilot",
-					module = "blink-copilot",
-					score_offset = 100,
-					async = true,
-					opts = {
-						max_completions = 3,
+		cmdline = {
+			sources = {
+				default = {
+					"lsp",
+					"path",
+					"snippets",
+					"buffer",
+					"copilot",
+				},
+				providers = {
+					copilot = {
+						name = "copilot",
+						module = "blink-copilot",
+						score_offset = 100,
+						async = true,
+						opts = {
+							max_completions = 3,
+						},
 					},
 				},
 			},
