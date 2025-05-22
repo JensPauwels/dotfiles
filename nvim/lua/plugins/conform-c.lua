@@ -6,7 +6,7 @@ return {
 		local conform = require("conform")
 		conform.setup({
 			formatters_by_ft = {
-				go = { "goimports", "gofmt" },
+				go = { "goimports", "gofmt", "golangcilint" },
 				lua = { "stylua" },
 				javascript = { "prettierd" },
 				typescript = { "prettier" },

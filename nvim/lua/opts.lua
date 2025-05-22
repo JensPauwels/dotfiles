@@ -39,3 +39,5 @@ vim.o.lazyredraw = true
 
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
+
+vim.g.go_doc_keywordprg_enabled = 0

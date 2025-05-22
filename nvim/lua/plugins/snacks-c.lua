@@ -22,7 +22,9 @@ return {
 			callback = function()
 				local dir = vim.fn.argv(0) --[[@as string]]
 				if dir ~= "" and vim.fn.isdirectory(dir) == 1 then
-					Snacks.picker.explorer({ cwd = dir })
+					Snacks.picker.explorer({
+						cwd = dir,
+					})
 				end
 			end,
 		})
