@@ -3,7 +3,14 @@ return {
 	priority = 1000,
 	lazy = false,
 	opts = {
-		picker = {},
+		picker = {
+			files = {
+				hidden = true,
+			},
+			explorer = {
+				hidden = true,
+			},
+		},
 		bigfile = { enabled = true },
 		lazygit = { enabled = true },
 		debud = { enabled = true },
@@ -23,7 +30,9 @@ return {
 				local dir = vim.fn.argv(0) --[[@as string]]
 				if dir ~= "" and vim.fn.isdirectory(dir) == 1 then
 					Snacks.picker.explorer({
+						follow_file = false,
 						cwd = dir,
+						hidden = true,
 					})
 				end
 			end,
