@@ -1,8 +1,8 @@
 return {
-	"tiagovla/tokyodark.nvim",
-	-- "EdenEast/nightfox.nvim",
+	-- "tiagovla/tokyodark.nvim",
+	"EdenEast/nightfox.nvim",
 	config = function(_, opts)
-		-- vim.cmd([[colorscheme nightfox]])
-		vim.cmd([[colorscheme tokyodark]])
+		vim.cmd([[colorscheme nightfox]])
+		-- vim.cmd([[colorscheme tokyodark]])
 	end,
 }
