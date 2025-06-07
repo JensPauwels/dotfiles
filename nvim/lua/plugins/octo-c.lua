@@ -7,7 +7,7 @@ return {
 	},
 	config = function()
 		require("octo").setup({
-			picker = "fzf-lua", -- let's hope I can change this to snacks soon :D
+			picker = "snacks",
 		})
 	end,
 }
