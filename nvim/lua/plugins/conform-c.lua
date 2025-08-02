@@ -8,8 +8,8 @@ return {
 			formatters_by_ft = {
 				go = { "goimports", "gofmt", "golangcilint" },
 				lua = { "stylua" },
-				javascript = { "prettierd" },
-				typescript = { "prettier" },
+				javascript = { "biome" },
+				typescript = { "biome" },
 				php = { "php" },
 			},
 			format_on_save = {
