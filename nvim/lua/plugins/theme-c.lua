@@ -1,8 +1,11 @@
 return {
-	-- "tiagovla/tokyodark.nvim",
-	"EdenEast/nightfox.nvim",
-	config = function(_, opts)
-		vim.cmd([[colorscheme nightfox]])
-		-- vim.cmd([[colorscheme tokyodark]])
-	end,
+	{
+		"baliestri/aura-theme",
+		lazy = false,
+		priority = 1000,
+		config = function(plugin)
+			vim.opt.rtp:append(plugin.dir .. "/packages/neovim")
+			vim.cmd([[colorscheme aura-dark]])
+		end,
+	},
 }

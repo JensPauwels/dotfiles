@@ -2,10 +2,8 @@ local M = {}
 
 local servers = {
 	"lua_ls",
-}
-
-local tools = {
-	"stylua",
+	"ts_ls",
+	"gopls",
 }
 
 local function lsp_capabilities()
@@ -14,17 +12,8 @@ local function lsp_capabilities()
 end
 
 function M.setup()
-	local mason_registry = require("mason-registry")
 	local mason_lspconfig = require("mason-lspconfig")
 	local lspconfig = require("lspconfig")
-
-	-- Ensure tools are installed
-	for _, tool in ipairs(tools) do
-		local ok, package = pcall(mason_registry.get_package, tool)
-		if ok and not package:is_installed() then
-			package:install()
-		end
-	end
 
 	-- Setup LSP servers manually
 	mason_lspconfig.setup({
@@ -53,10 +42,7 @@ end
 vim.api.nvim_create_autocmd("LspAttach", {
 	callback = function(args)
 		local bufnr = args.buf
-		local client = vim.lsp.get_client_by_id(args.data.client_id)
 		local Snacks = require("snacks")
-
-		print("LSP attached for buffer " .. bufnr .. " with client " .. client.name)
 
 		local function map(mode, lhs, rhs, desc)
 			vim.keymap.set(mode, lhs, rhs, { buffer = bufnr, desc = desc })
