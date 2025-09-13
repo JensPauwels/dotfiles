@@ -22,7 +22,7 @@ vim.keymap.set("v", "r", '"_dP', opts)
 
 -- Snacks
 vim.keymap.set("n", "<leader>s", "<cmd>NvimTreeFindFile<CR>", opts)
-vim.keymap.set("n", "<leader>n", Snacks.picker.explorer, opts)
+vim.keymap.set("n", "<leader>n", "<cmd>NvimTreeToggle<CR>", opts)
 vim.keymap.set("n", "<C-p>", Snacks.picker.files, opts)
 vim.keymap.set("n", "<leader>ff", Snacks.picker.files, opts)
 vim.keymap.set("n", "<leader>fg", Snacks.picker.grep, opts)
@@ -43,17 +43,16 @@ vim.keymap.set("n", "<leader>td", function()
 end, opts)
 
 -- Go coverage
-vim.keymap.set("n", "<leader>gc", function()
-	local dir = vim.fn.expand("%:p:h")
-	local cmd = "GoCoverageOverlay " .. dir .. "/coverage.out"
-	print("Generated command:", cmd)
-	vim.cmd(cmd)
-end, opts)
+vim.keymap.set("n", "<leader>gc", "<cmd>Coverage<CR>", opts)
 
 -- Rest client
 vim.keymap.set("n", "<leader>tr", "<cmd>Rest run<CR>", opts)
 
--- LazyGit command
-vim.api.nvim_create_user_command("LazyGit", function()
-	Snacks.lazygit()
-end, {})
+-- Terminal
+vim.keymap.set("n", "<leader>t", "<cmd>ToggleTerm<CR>", opts)
+
+-- Notification history
+vim.keymap.set("n", "<leader>h", function()
+	require("snacks").notifier.history()
+end, opts)
+

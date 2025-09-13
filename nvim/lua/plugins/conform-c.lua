@@ -17,7 +17,6 @@ return {
 				async = false,
 				timeout_ms = 1000,
 			},
-			notify_on_error = true,
 		})
 	end,
 }

@@ -7,10 +7,7 @@ return {
 	config = function()
 		local dap, dapui = require("dap"), require("dapui")
 		local dap_go = require("dap-go")
-		-- local dap_vscode_js = require("dap-vscode-js")
 
-		-- Setup dap-go
-		dap_go.setup()
 		dapui.setup()
 
 		dap.set_log_level("TRACE")
@@ -36,33 +33,6 @@ return {
 
 		-- Key mapping for Go specific debugging
 		vim.keymap.set("n", "<Leader>dg", dap_go.debug_test, {}) -- Debug test function in Go
-
-		-- -- JavaScript/TypeScript DAP configurations
-		-- for _, language in ipairs({ "typescript", "javascript" }) do
-		-- 	dap.configurations[language] = {
-		-- 		{
-		-- 			type = "pwa-node",
-		-- 			request = "launch",
-		-- 			name = "Launch file",
-		-- 			program = "${file}",
-		-- 			cwd = "${workspaceFolder}",
-		-- 		},
-		-- 		{
-		-- 			type = "pwa-node",
-		-- 			request = "attach",
-		-- 			name = "Attach",
-		-- 			processId = require("dap.utils").pick_process,
-		-- 			cwd = "${workspaceFolder}",
-		-- 		},
-		-- 		{
-		-- 			type = "pwa-chrome",
-		-- 			request = "launch",
-		-- 			name = "Launch Chrome against localhost",
-		-- 			url = "http://localhost:3000",
-		-- 			webRoot = "${workspaceFolder}",
-		-- 		},
-		-- 	}
-		-- end
 
 		-- Automatically install delve if not found
 		dap_go.setup({

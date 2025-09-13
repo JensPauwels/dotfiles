@@ -3,6 +3,7 @@ vim.opt.tabstop = 2
 vim.opt.shiftwidth = 2
 
 vim.opt.expandtab = true
+vim.opt.laststatus = 0
 
 -- Enable relative line numbers
 vim.opt.number = true
@@ -19,9 +20,6 @@ vim.opt.autoindent = true
 
 -- Ignore the casing
 vim.o.ignorecase = true
-
--- Place a line at 100 characters
-vim.cmd("set colorcolumn=100")
 
 -- Make the buffer on the right active when splitting
 vim.o.splitright = true
