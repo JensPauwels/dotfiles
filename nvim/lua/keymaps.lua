@@ -49,10 +49,9 @@ vim.keymap.set("n", "<leader>gc", "<cmd>Coverage<CR>", opts)
 vim.keymap.set("n", "<leader>tr", "<cmd>Rest run<CR>", opts)
 
 -- Terminal
-vim.keymap.set("n", "<leader>t", "<cmd>ToggleTerm<CR>", opts)
+vim.keymap.set("n", "<C-t>", "<cmd>ToggleTerm<CR>", { noremap = true, silent = true, nowait = true })
 
 -- Notification history
 vim.keymap.set("n", "<leader>h", function()
 	require("snacks").notifier.history()
 end, opts)
-

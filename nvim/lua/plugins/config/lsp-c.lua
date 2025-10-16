@@ -32,6 +32,10 @@ function M.setup()
 					diagnostics = { globals = { "vim" } },
 				},
 			}
+		elseif server_name == "ts_ls" then
+			-- Configure ts_ls to use git root to prevent multiple instances in monorepos
+			opts.root_dir = require("lspconfig.util").root_pattern(".git")
+			opts.single_file_support = false
 		end
 
 		lspconfig[server_name].setup(opts)

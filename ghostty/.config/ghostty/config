@@ -1,0 +1,99 @@
+# Ghostty Configuration with Catppuccin Mocha Theme
+
+# Theme: Catppuccin Mocha
+theme = catppuccin-mocha
+
+# Font configuration
+font-family = "JetBrains Mono"
+font-size = 14
+font-feature = "+liga"
+
+# Window settings
+window-decoration = true
+window-title-font-family = "JetBrains Mono"
+
+# Rounded corners and visual settings
+window-padding-x = 8
+window-padding-y = 8
+window-vsync = true
+
+# Background and transparency
+background-opacity = 0.95
+
+# Cursor settings
+cursor-style = block
+cursor-style-blink = false
+
+# Shell integration
+shell-integration = zsh
+shell-integration-features = cursor,sudo,title
+
+# Mouse settings
+mouse-hide-while-typing = true
+
+# Copy/paste settings
+copy-on-select = clipboard
+
+# Terminal bell
+audible-bell = false
+visual-bell = false
+
+# Colors (Catppuccin Mocha)
+# Background and foreground
+background = 1e1e2e
+foreground = cdd6f4
+
+# Selection colors
+selection-background = 45475a
+selection-foreground = cdd6f4
+
+# Cursor colors
+cursor-color = f5e0dc
+cursor-text = 1e1e2e
+
+# URL colors
+url-color = 89b4fa
+
+# Regular colors
+palette = 0=45475a
+palette = 1=f38ba8
+palette = 2=a6e3a1
+palette = 3=f9e2af
+palette = 4=89b4fa
+palette = 5=f5c2e7
+palette = 6=94e2d5
+palette = 7=bac2de
+
+# Bright colors
+palette = 8=585b70
+palette = 9=f38ba8
+palette = 10=a6e3a1
+palette = 11=f9e2af
+palette = 12=89b4fa
+palette = 13=f5c2e7
+palette = 14=94e2d5
+palette = 15=a6adc8
+
+# Key bindings
+keybind = super+c=copy_to_clipboard
+keybind = super+v=paste_from_clipboard
+keybind = super+n=new_window
+keybind = super+t=new_tab
+keybind = super+w=close_surface
+keybind = super+shift+left_bracket=previous_tab
+keybind = super+shift+right_bracket=next_tab
+keybind = super+plus=increase_font_size:1
+keybind = super+minus=decrease_font_size:1
+keybind = super+zero=reset_font_size
+
+# Tab bar
+tab-width = 8
+
+# Performance
+unfocused-split-opacity = 0.8
+
+# Scrollback
+scrollback-limit = 10000
+
+# Working directory
+working-directory = inherit
