@@ -12,7 +12,7 @@ return {
 			highlight = {
 				enable = true,
 				disable = { "c", "rust" },
-				additional_vim_regex_highlighting = true,
+				additional_vim_regex_highlighting = false, -- Major performance improvement
 			},
 		})
 	end,
