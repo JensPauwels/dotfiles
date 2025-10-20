@@ -39,6 +39,12 @@ return {
     },
   },
 
+  {
+    "nvim-pack/nvim-spectre",
+    cmd = "Spectre",
+    config = true,
+  }
+
   -- test new blink
   -- { import = "nvchad.blink.lazyspec" },
 
