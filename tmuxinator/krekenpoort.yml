@@ -1,0 +1,35 @@
+# /Users/jenspauwels/.config/tmuxinator/krekenpoort.yml
+
+name: 'krekenpoort'
+root: ~/
+
+windows:
+  - go-api:
+      layout: main-horizontal
+      panes:
+        - editor:
+          - cd ~/Documents/dev/private_projects/krekenpoort/go-api/
+          - nvim .
+        - start:
+          - cd ~/Documents/dev/private_projects/krekenpoort/go-api/
+          - MODE=DEVELOPMENT air
+
+  - admin-ui:
+      layout: main-horizontal
+      panes:
+        - editor:
+          - cd ~/Documents/dev/private_projects/krekenpoort/admin-ui
+          - nvim .
+        - start:
+          - cd ~/Documents/dev/private_projects/krekenpoort/admin-ui
+          - pnpm dev
+
+  - sso-ui:
+      layout: main-horizontal
+      panes:
+        - editor:
+          - cd ~/Documents/dev/private_projects/krekenpoort/sso-ui/
+          - nvim .
+        - start:
+          - cd ~/Documents/dev/private_projects/krekenpoort/sso-ui/
+          - pnpm dev
