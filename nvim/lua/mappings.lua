@@ -11,6 +11,7 @@ map("n", "<leader>n", "<cmd>NvimTreeToggle<cr>", { desc = "Toggle nvim-tree" })
 map("n", "<leader>s", "<cmd>NvimTreeFindFile<cr>", { desc = "Reveal file in nvim-tree" })
 map("n", "<leader>gr", "<cmd>Telescope lsp_references<cr>", { desc = "LSP references" })
 map('n', '<leader>e', vim.diagnostic.open_float, { desc = '[E]xpand diagnostic message' })
+map('n', '<Esc>', '<cmd>nohlsearch<CR>')
 
 map("n", "<C-t>", function ()
   require("nvchad.themes").open()
