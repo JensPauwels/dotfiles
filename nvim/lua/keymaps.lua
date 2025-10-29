@@ -55,3 +55,7 @@ vim.keymap.set("n", "<C-t>", "<cmd>ToggleTerm<CR>", { noremap = true, silent = t
 vim.keymap.set("n", "<leader>h", function()
 	require("snacks").notifier.history()
 end, opts)
+
+-- Tab navigation
+vim.keymap.set("n", "<Tab>", ":tabnext<CR>", opts)
+vim.keymap.set("n", "<leader>x", ":tabclose<CR>", opts)
