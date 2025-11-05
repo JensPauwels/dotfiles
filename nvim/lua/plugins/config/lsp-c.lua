@@ -13,7 +13,6 @@ end
 
 function M.setup()
 	local mason_lspconfig = require("mason-lspconfig")
-	local lspconfig = require("lspconfig")
 
 	-- Setup LSP servers manually
 	mason_lspconfig.setup({
@@ -34,11 +33,13 @@ function M.setup()
 			}
 		elseif server_name == "ts_ls" then
 			-- Configure ts_ls to use git root to prevent multiple instances in monorepos
-			opts.root_dir = require("lspconfig.util").root_pattern(".git")
+			opts.root_dir = vim.fs.root(0, ".git")
 			opts.single_file_support = false
 		end
 
-		lspconfig[server_name].setup(opts)
+		-- Use new vim.lsp API instead of deprecated require('lspconfig')
+		vim.lsp.config(server_name, opts)
+		vim.lsp.enable(server_name)
 	end
 end
 
