@@ -3,7 +3,23 @@ return {
 	build = ":TSUpdate",
 	config = function()
 		require("nvim-treesitter.configs").setup({
-			ensure_installed = {},
+			ensure_installed = {
+				"typescript",
+				"tsx",
+				"javascript",
+				"go",
+				"gomod",
+				"gosum",
+				"hcl",
+				"terraform",
+				"lua",
+				"html",
+				"css",
+				"json",
+				"yaml",
+				"markdown",
+				"markdown_inline",
+			},
 			sync_install = false,
 			auto_install = true,
 			indent = {
@@ -12,7 +28,7 @@ return {
 			highlight = {
 				enable = true,
 				disable = { "c", "rust" },
-				additional_vim_regex_highlighting = false, -- Major performance improvement
+				additional_vim_regex_highlighting = false,
 			},
 		})
 	end,

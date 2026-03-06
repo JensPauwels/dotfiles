@@ -43,10 +43,7 @@ vim.keymap.set("n", "<leader>td", function()
 end, opts)
 
 -- Go coverage
-vim.keymap.set("n", "<leader>gc", "<cmd>Coverage<CR>", opts)
-
--- Rest client
-vim.keymap.set("n", "<leader>tr", "<cmd>Rest run<CR>", opts)
+vim.keymap.set("n", "<leader>cv", "<cmd>Coverage<CR>", opts)
 
 -- Terminal
 vim.keymap.set("n", "<C-t>", "<cmd>ToggleTerm<CR>", { noremap = true, silent = true, nowait = true })

@@ -4,6 +4,8 @@ local servers = {
 	"lua_ls",
 	"ts_ls",
 	"gopls",
+	"terraformls",
+	"tailwindcss",
 }
 
 local function lsp_capabilities()

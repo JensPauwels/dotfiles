@@ -1,11 +1,14 @@
 return {
 	"nvim-tree/nvim-tree.lua",
-	cmd = { "NvimTreeToggle", "NvimTreeFindFile" }, -- Lazy load on command
+	dependencies = {
+		"nvim-tree/nvim-web-devicons",
+	},
+	cmd = { "NvimTreeToggle", "NvimTreeFindFile" },
 	keys = {
 		{ "<leader>n", "<cmd>NvimTreeToggle<CR>", desc = "Toggle NvimTree" },
 		{ "<leader>s", "<cmd>NvimTreeFindFile<CR>", desc = "Find file in NvimTree" },
 	},
-	opts = function()
+	config = function()
 		require("nvim-tree").setup({
 			sort = {
 				sorter = "case_sensitive",
@@ -15,9 +18,17 @@ return {
 			},
 			renderer = {
 				group_empty = true,
+				icons = {
+					show = {
+						file = true,
+						folder = true,
+						folder_arrow = true,
+						git = true,
+					},
+				},
 			},
 			filters = {
-				dotfiles = true,
+				dotfiles = false,
 			},
 		})
 	end,
