@@ -6,10 +6,16 @@ return {
 		local conform = require("conform")
 		conform.setup({
 			formatters_by_ft = {
-				go = { "goimports", "gofmt", "golangcilint" },
+				go = { "goimports", "gofmt" },
 				lua = { "stylua" },
 				javascript = { "biome" },
 				typescript = { "biome" },
+				javascriptreact = { "biome" },
+				typescriptreact = { "biome" },
+				terraform = { "terraform_fmt" },
+				tf = { "terraform_fmt" },
+				["terraform-vars"] = { "terraform_fmt" },
+				hcl = { "terraform_fmt" },
 				php = { "php" },
 			},
 			format_on_save = {
