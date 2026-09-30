@@ -14,6 +14,7 @@ import (
 
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/charmbracelet/lipgloss"
+	"github.com/charmbracelet/x/ansi"
 )
 
 type fwd struct {
@@ -37,9 +38,12 @@ type model struct {
 type (
 	stateMsg  struct{ items []fwd }
 	stateErr  struct{ err error }
-	actionMsg struct{ out string; err error }
-	logMsg    []string
-	tickMsg   struct{}
+	actionMsg struct {
+		out string
+		err error
+	}
+	logMsg  []string
+	tickMsg struct{}
 )
 
 var (
@@ -56,16 +60,16 @@ var (
 	cText   = lipgloss.Color("#cdd6f4")
 	cSurf   = lipgloss.Color("#313244")
 
-	sTitle    = lipgloss.NewStyle().Bold(true).Foreground(cMauve)
-	sDim      = lipgloss.NewStyle().Foreground(cDim)
-	sKey      = lipgloss.NewStyle().Foreground(cBlue)
-	sCursor   = lipgloss.NewStyle().Background(cSurf).Bold(true)
-	sOK       = lipgloss.NewStyle().Foreground(cGreen)
-	sErr      = lipgloss.NewStyle().Foreground(cRed)
-	sWarn     = lipgloss.NewStyle().Foreground(cYellow).Bold(true)
-	sPane     = lipgloss.NewStyle().Border(lipgloss.RoundedBorder()).BorderForeground(cDim).Padding(0, 1)
-	sPaneFoc  = sPane.BorderForeground(cMauve)
-	sLogLine  = lipgloss.NewStyle().Foreground(cText)
+	sTitle   = lipgloss.NewStyle().Bold(true).Foreground(cMauve)
+	sDim     = lipgloss.NewStyle().Foreground(cDim)
+	sKey     = lipgloss.NewStyle().Foreground(cBlue)
+	sCursor  = lipgloss.NewStyle().Background(cSurf).Bold(true)
+	sOK      = lipgloss.NewStyle().Foreground(cGreen)
+	sErr     = lipgloss.NewStyle().Foreground(cRed)
+	sWarn    = lipgloss.NewStyle().Foreground(cYellow).Bold(true)
+	sPane    = lipgloss.NewStyle().Border(lipgloss.RoundedBorder()).BorderForeground(cDim).Padding(0, 1)
+	sPaneFoc = sPane.BorderForeground(cMauve)
+	sLogLine = lipgloss.NewStyle().Foreground(cText)
 )
 
 func envOr(k, d string) string {
@@ -313,18 +317,12 @@ func icon(state string) string {
 	return sDim.Render("○")
 }
 
+// trunc cuts a possibly styled string to w cells without breaking escapes.
 func trunc(s string, w int) string {
 	if w <= 0 {
 		return ""
 	}
-	r := []rune(s)
-	if len(r) <= w {
-		return s
-	}
-	if w == 1 {
-		return "…"
-	}
-	return string(r[:w-1]) + "…"
+	return ansi.Truncate(s, w, "…")
 }
 
 func (m model) View() string {
