@@ -151,7 +151,7 @@ start_one() {
 	fi
 	log=$PF_STATE/$name.log
 	print -r -- "# $(date '+%F %T') pf start: $cmd" >"$log"
-	nohup zsh -c "exec $cmd" >>"$log" 2>&1 &!
+	nohup zsh -c "exec $cmd" </dev/null >>"$log" 2>&1 &!
 	pid=$!
 	print -- $pid >"$PF_STATE/$name.pid"
 	n=0
