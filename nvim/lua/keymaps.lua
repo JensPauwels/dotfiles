@@ -1,58 +1,43 @@
-local Snacks = require("snacks")
-local opts = { noremap = true, silent = true }
+local map = function(mode, lhs, rhs, desc)
+	vim.keymap.set(mode, lhs, rhs, { noremap = true, silent = true, desc = desc })
+end
 
--- Basic navigation and split controls
-vim.keymap.set("n", "<C-h>", "<C-w>h", opts)
-vim.keymap.set("n", "<C-j>", "<C-w>j", opts)
-vim.keymap.set("n", "<C-k>", "<C-w>k", opts)
-vim.keymap.set("n", "<C-l>", "<C-w>l", opts)
-vim.keymap.set("n", "tnew", "<cmd>tabnew<CR>", opts)
+-- Window navigation
+map("n", "<C-h>", "<C-w>h", "Window left")
+map("n", "<C-j>", "<C-w>j", "Window down")
+map("n", "<C-k>", "<C-w>k", "Window up")
+map("n", "<C-l>", "<C-w>l", "Window right")
 
--- Highlight control
-vim.keymap.set("n", "<Esc>", "<cmd>noh<CR>", opts)
+-- Clear highlight
+map("n", "<Esc>", "<cmd>noh<CR>", "Clear search highlight")
 
 -- LSP
-vim.keymap.set("n", "<leader>r", vim.lsp.buf.rename, opts)
-vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float, opts)
+map("n", "<leader>r", vim.lsp.buf.rename, "Rename symbol")
+map("n", "<leader>e", vim.diagnostic.open_float, "Show diagnostic")
 
--- Text movement
-vim.keymap.set("n", "<Leader>k", "ddkP", opts)
-vim.keymap.set("n", "<Leader>j", "ddp", opts)
-vim.keymap.set("v", "r", '"_dP', opts)
+-- Move lines
+map("n", "<leader>k", "ddkP", "Move line up")
+map("n", "<leader>j", "ddp", "Move line down")
+map("v", "r", '"_dP', "Replace selection without yank")
 
--- Snacks
-vim.keymap.set("n", "<leader>s", "<cmd>NvimTreeFindFile<CR>", opts)
-vim.keymap.set("n", "<leader>n", "<cmd>NvimTreeToggle<CR>", opts)
-vim.keymap.set("n", "<C-p>", Snacks.picker.files, opts)
-vim.keymap.set("n", "<leader>ff", Snacks.picker.files, opts)
-vim.keymap.set("n", "<leader>fg", Snacks.picker.grep, opts)
-vim.keymap.set("n", "<leader>fb", Snacks.picker.buffers, opts)
-vim.keymap.set("n", "<leader>da", Snacks.picker.diagnostics, opts)
+-- Pickers (snacks)
+map("n", "<C-p>", function() Snacks.picker.files() end, "Find files")
+map("n", "<leader>ff", function() Snacks.picker.files() end, "Find files")
+map("n", "<leader>fg", function() Snacks.picker.grep() end, "Live grep")
+map("n", "<leader>fb", function() Snacks.picker.buffers() end, "Buffers")
+map("n", "<leader>fr", function() Snacks.picker.recent() end, "Recent files")
+map("n", "<leader>da", function() Snacks.picker.diagnostics() end, "Diagnostics (workspace)")
+map("n", "<leader>fn", function() Snacks.notifier.show_history() end, "Notification history")
 
--- Testing (neotest)
-vim.keymap.set("n", "<leader>tf", function()
-	require("neotest").run.run(vim.fn.expand("%"))
-end, opts)
-
-vim.keymap.set("n", "<leader>tn", function()
-	require("neotest").run.run()
-end, opts)
-
-vim.keymap.set("n", "<leader>td", function()
-	require("neotest").run.run({ strategy = "dap" })
-end, opts)
+-- Tests (neotest)
+map("n", "<leader>tf", function() require("neotest").run.run(vim.fn.expand("%")) end, "Test file")
+map("n", "<leader>tn", function() require("neotest").run.run() end, "Test nearest")
+map("n", "<leader>td", function() require("neotest").run.run({ strategy = "dap" }) end, "Debug nearest test")
 
 -- Go coverage
-vim.keymap.set("n", "<leader>cv", "<cmd>Coverage<CR>", opts)
+map("n", "<leader>cv", "<cmd>Coverage<CR>", "Toggle coverage")
 
--- Terminal
-vim.keymap.set("n", "<C-t>", "<cmd>ToggleTerm<CR>", { noremap = true, silent = true, nowait = true })
-
--- Notification history
-vim.keymap.set("n", "<leader>h", function()
-	require("snacks").notifier.history()
-end, opts)
-
--- Tab navigation
-vim.keymap.set("n", "<Tab>", ":tabnext<CR>", opts)
-vim.keymap.set("n", "<leader>x", ":tabclose<CR>", opts)
+-- Tabs
+map("n", "<Tab>", "<cmd>tabnext<CR>", "Next tab")
+map("n", "<leader>tt", "<cmd>tabnew<CR>", "New tab")
+map("n", "<leader>x", "<cmd>tabclose<CR>", "Close tab")

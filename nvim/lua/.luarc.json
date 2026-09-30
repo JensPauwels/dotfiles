@@ -1,7 +1,6 @@
 {
     "workspace.library": [
-        "/Users/jenspauwels/.local/share/nvim/lazy/neodev.nvim/types/stable",
-        "/Applications/nvim-macos/share/nvim/runtime/lua",
+        "/opt/homebrew/share/nvim/runtime/lua",
         "/Users/jenspauwels/dotfiles/nvim/lua",
         "${3rd}/luv/library"
     ],

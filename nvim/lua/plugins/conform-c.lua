@@ -16,7 +16,7 @@ return {
 				tf = { "terraform_fmt" },
 				["terraform-vars"] = { "terraform_fmt" },
 				hcl = { "terraform_fmt" },
-				php = { "php" },
+				php = { "php_cs_fixer" },
 			},
 			format_on_save = {
 				lsp_fallback = true,
