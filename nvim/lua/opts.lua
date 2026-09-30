@@ -3,7 +3,6 @@ vim.opt.tabstop = 2
 vim.opt.shiftwidth = 2
 
 vim.opt.expandtab = true
-vim.opt.laststatus = 0
 
 -- Enable relative line numbers
 vim.opt.number = true

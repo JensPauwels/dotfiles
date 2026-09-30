@@ -18,13 +18,21 @@ return {
 			end
 
 			-- Navigation between hunks
-			map("n", "]c", gs.next_hunk, "Next hunk")
-			map("n", "[c", gs.prev_hunk, "Prev hunk")
+			map("n", "]h", gs.next_hunk, "Next hunk")
+			map("n", "[h", gs.prev_hunk, "Prev hunk")
 
-			-- Actions
-			map("n", "<leader>gp", gs.preview_hunk, "Preview hunk")
-			map("n", "<leader>gr", gs.reset_hunk, "Reset hunk")
-			map("n", "<leader>gb", gs.blame_line, "Blame line")
+			-- Hunk actions
+			map("n", "<leader>hp", gs.preview_hunk_inline, "Preview hunk inline")
+			map("n", "<leader>hd", function()
+				gs.toggle_deleted()
+				gs.toggle_linehl()
+				gs.toggle_word_diff()
+			end, "Toggle inline diff view")
+			map("n", "<leader>hr", gs.reset_hunk, "Reset hunk")
+			map("n", "<leader>hs", gs.stage_hunk, "Stage hunk")
+			map("v", "<leader>hs", function() gs.stage_hunk({ vim.fn.line("."), vim.fn.line("v") }) end, "Stage hunk")
+			map("v", "<leader>hr", function() gs.reset_hunk({ vim.fn.line("."), vim.fn.line("v") }) end, "Reset hunk")
+			map("n", "<leader>hb", gs.blame_line, "Blame line")
 		end,
 	},
 }
