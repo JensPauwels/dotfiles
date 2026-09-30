@@ -1,0 +1,285 @@
+#!/usr/bin/env zsh
+# pf - start, stop and pick long-running port forwards (kubectl port-forward,
+# cloud-sql-proxy, ...). Each forward runs detached; its log and pid live in
+# ~/.local/state/pf. Definitions come from ~/.config/pf/forwards.
+#
+#   pf                 picker (fzf): enter toggles, tab marks several, esc quits
+#   pf start NAME...   pf stop NAME... | --all   pf toggle NAME   pf restart NAME
+#   pf status          pf logs NAME [-f]         pf show NAME     pf edit
+
+set -u
+setopt extended_glob
+PF_CONFIG="${PF_CONFIG:-$HOME/.config/pf/forwards}"
+PF_STATE="${PF_STATE:-$HOME/.local/state/pf}"
+mkdir -p "$PF_STATE"
+
+typeset -a NAMES PORTS CMDS
+
+if [[ -t 1 ]]; then
+	C_GREEN=$'\e[32m' C_RED=$'\e[31m' C_YELLOW=$'\e[33m' C_DIM=$'\e[2m' C_OFF=$'\e[0m'
+else
+	C_GREEN='' C_RED='' C_YELLOW='' C_DIM='' C_OFF=''
+fi
+
+die() {
+	print -r -- "pf: $*" >&2
+	exit 1
+}
+
+# forwards file: NAME  PORT  COMMAND...  (blank lines and # comments ignored)
+load() {
+	NAMES=() PORTS=() CMDS=()
+	[[ -r $PF_CONFIG ]] || die "no config at $PF_CONFIG"
+	local line name port cmd
+	while IFS= read -r line || [[ -n $line ]]; do
+		line="${line%%$'\r'}"
+		[[ -z ${line//[[:space:]]/} || ${line[1]} == '#' ]] && continue
+		name=${line%%[[:space:]]*}
+		line=${line#"$name"}
+		line=${line##[[:space:]]#}
+		port=${line%%[[:space:]]*}
+		cmd=${line#"$port"}
+		cmd=${cmd##[[:space:]]#}
+		[[ $port == <-> && -n $cmd ]] || die "bad line in $PF_CONFIG: $name"
+		NAMES+=("$name") PORTS+=("$port") CMDS+=("$cmd")
+	done <"$PF_CONFIG"
+}
+
+index_of() {
+	local i
+	for ((i = 1; i <= ${#NAMES}; i++)); do
+		[[ ${NAMES[i]} == "$1" ]] && { print -- $i; return 0; }
+	done
+	return 1
+}
+
+pid_of() {
+	local f=$PF_STATE/$1.pid
+	[[ -r $f ]] && cat "$f"
+}
+
+alive() {
+	[[ -n ${1:-} ]] && kill -0 "$1" 2>/dev/null
+}
+
+port_pid() {
+	lsof -nP -iTCP:"$1" -sTCP:LISTEN -t 2>/dev/null | head -n 1
+}
+
+# running | died | busy | stopped
+state_of() {
+	local name=$1 port=$2 pid
+	pid=$(pid_of "$name")
+	if alive "$pid"; then
+		print running
+	elif [[ -n $pid ]]; then
+		print died
+	elif [[ -n $(port_pid "$port") ]]; then
+		print busy
+	else
+		print stopped
+	fi
+}
+
+icon_of() {
+	case $1 in
+	running) print -- "${C_GREEN}●${C_OFF}" ;;
+	died) print -- "${C_RED}✗${C_OFF}" ;;
+	busy) print -- "${C_YELLOW}!${C_OFF}" ;;
+	*) print -- "${C_DIM}○${C_OFF}" ;;
+	esac
+}
+
+require() {
+	local i
+	i=$(index_of "$1") || die "unknown forward '$1' (see: pf status)"
+	print -- $i
+}
+
+start_one() {
+	local name=$1 i port cmd st log pid n
+	i=$(require "$name") || return 1
+	port=${PORTS[i]} cmd=${CMDS[i]}
+	st=$(state_of "$name" "$port")
+	if [[ $st == running ]]; then
+		print -- "$(icon_of running) $name already running on :$port"
+		return 0
+	fi
+	rm -f "$PF_STATE/$name.pid" # a previous run that died
+	if [[ -n $(port_pid "$port") ]]; then
+		print -r -- "$(icon_of busy) $name: port $port is already in use by pid $(port_pid "$port")" >&2
+		return 1
+	fi
+	log=$PF_STATE/$name.log
+	print -r -- "# $(date '+%F %T') pf start: $cmd" >"$log"
+	nohup zsh -c "exec $cmd" >>"$log" 2>&1 &!
+	pid=$!
+	print -- $pid >"$PF_STATE/$name.pid"
+	n=0
+	while ((n < 60)); do
+		if ! alive "$pid"; then
+			print -r -- "$(icon_of died) $name exited right away:" >&2
+			tail -n 5 "$log" | sed 's/^/    /' >&2
+			rm -f "$PF_STATE/$name.pid"
+			return 1
+		fi
+		if [[ -n $(port_pid "$port") ]]; then
+			print -- "$(icon_of running) $name listening on 127.0.0.1:$port ${C_DIM}(pid $pid)${C_OFF}"
+			return 0
+		fi
+		sleep 0.25
+		((n++))
+	done
+	print -- "$(icon_of running) $name started (pid $pid) but :$port is not listening yet, see: pf logs $name"
+}
+
+stop_one() {
+	local name=$1 i pid n
+	i=$(require "$name") || return 1
+	pid=$(pid_of "$name")
+	if ! alive "$pid"; then
+		rm -f "$PF_STATE/$name.pid"
+		print -- "$(icon_of stopped) $name is not running"
+		return 0
+	fi
+	kill "$pid" 2>/dev/null
+	n=0
+	while alive "$pid" && ((n < 20)); do
+		sleep 0.25
+		((n++))
+	done
+	alive "$pid" && kill -9 "$pid" 2>/dev/null
+	rm -f "$PF_STATE/$name.pid"
+	print -- "$(icon_of stopped) $name stopped"
+}
+
+toggle_one() {
+	local name=$1 i
+	i=$(require "$name") || return 1
+	if [[ $(state_of "$name" "${PORTS[i]}") == running ]]; then
+		stop_one "$name"
+	else
+		start_one "$name"
+	fi
+}
+
+status_all() {
+	local i st pid
+	for ((i = 1; i <= ${#NAMES}; i++)); do
+		st=$(state_of "${NAMES[i]}" "${PORTS[i]}")
+		pid=$(pid_of "${NAMES[i]}")
+		printf '%s %-22s :%-5s %-8s %s%s%s\n' "$(icon_of "$st")" "${NAMES[i]}" "${PORTS[i]}" "$st" \
+			"$C_DIM" "${pid:+pid $pid  }${CMDS[i][1,60]}" "$C_OFF"
+	done
+}
+
+# one line per forward, name in field 2, for fzf
+list_lines() {
+	local i st
+	for ((i = 1; i <= ${#NAMES}; i++)); do
+		st=$(state_of "${NAMES[i]}" "${PORTS[i]}")
+		printf '%s %-22s :%-5s %s%s%s\n' "$(icon_of "$st")" "${NAMES[i]}" "${PORTS[i]}" "$C_DIM" "$st" "$C_OFF"
+	done
+}
+
+show_one() {
+	local name=$1 i st pid log
+	i=$(require "$name") || return 1
+	st=$(state_of "$name" "${PORTS[i]}")
+	pid=$(pid_of "$name")
+	print -- "$(icon_of "$st") $name  ·  $st${pid:+  ·  pid $pid}"
+	print -- "port     127.0.0.1:${PORTS[i]}"
+	print -r -- "command  ${CMDS[i]}"
+	log=$PF_STATE/$name.log
+	if [[ -r $log ]]; then
+		print
+		print -- "${C_DIM}── log ──${C_OFF}"
+		tail -n 20 "$log"
+	fi
+}
+
+logs_one() {
+	local name=$1 log
+	index_of "$name" >/dev/null || die "unknown forward '$name'"
+	log=$PF_STATE/$name.log
+	[[ -r $log ]] || die "no log yet for $name"
+	if [[ ${2:-} == -f ]]; then
+		tail -n 40 -f "$log"
+	else
+		tail -n "${2:-40}" "$log"
+	fi
+}
+
+pick() {
+	command -v fzf >/dev/null || die "fzf is not installed (brew install fzf); use: pf start NAME"
+	local sel name
+	while true; do
+		sel=$(
+			C_GREEN=$'\e[32m' C_RED=$'\e[31m' C_YELLOW=$'\e[33m' C_DIM=$'\e[2m' C_OFF=$'\e[0m' list_lines |
+				fzf --ansi --multi --no-sort --layout=reverse \
+					--header 'enter: toggle  ·  tab: mark several  ·  esc: quit' \
+					--preview "$0 show {2}" --preview-window 'right,55%,wrap' \
+					--bind 'ctrl-r:reload('"$0"' list)'
+		) || return 0
+		[[ -z $sel ]] && return 0
+		while IFS= read -r line; do
+			name=${${(z)line}[2]}
+			toggle_one "$name"
+		done <<<"$sel"
+	done
+}
+
+usage() {
+	sed -n '2,9p' "$0" | sed 's/^# \{0,1\}//'
+}
+
+main() {
+	local cmd=${1:-pick}
+	shift $(($# > 0 ? 1 : 0))
+	load
+	case $cmd in
+	pick) pick ;;
+	start)
+		(($#)) || die "usage: pf start NAME..."
+		local n rc=0
+		for n in "$@"; do start_one "$n" || rc=1; done
+		return $rc
+		;;
+	stop)
+		(($#)) || die "usage: pf stop NAME... | --all"
+		local n rc=0
+		if [[ $1 == --all || $1 == -a ]]; then
+			for n in "${NAMES[@]}"; do
+				[[ $(state_of "$n" "${PORTS[$(index_of "$n")]}") == running ]] && { stop_one "$n" || rc=1; }
+			done
+		else
+			for n in "$@"; do stop_one "$n" || rc=1; done
+		fi
+		return $rc
+		;;
+	toggle)
+		(($#)) || die "usage: pf toggle NAME"
+		toggle_one "$1"
+		;;
+	restart)
+		(($#)) || die "usage: pf restart NAME"
+		stop_one "$1" && start_one "$1"
+		;;
+	status | ls) status_all ;;
+	list) C_GREEN=$'\e[32m' C_RED=$'\e[31m' C_YELLOW=$'\e[33m' C_DIM=$'\e[2m' C_OFF=$'\e[0m' list_lines ;;
+	list-names) print -l -- "${NAMES[@]}" ;;
+	show)
+		(($#)) || die "usage: pf show NAME"
+		show_one "$1"
+		;;
+	logs)
+		(($#)) || die "usage: pf logs NAME [-f|N]"
+		logs_one "$@"
+		;;
+	edit) ${EDITOR:-nvim} "$PF_CONFIG" ;;
+	-h | --help | help) usage ;;
+	*) die "unknown command '$cmd' (try: pf help)" ;;
+	esac
+}
+
+main "$@"

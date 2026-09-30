@@ -1,0 +1,8 @@
+# Port forwards managed by `pf`. One per line:  NAME  LOCAL_PORT  COMMAND...
+# Commands run through `zsh -c`, so $(...) and quotes work. Blank lines and
+# lines starting with # are ignored. Copy this file to `forwards` and edit;
+# `forwards` is gitignored because it names real infrastructure.
+
+# prod-db      3306  cloud-sql-proxy my-project:europe-west1:my-instance --port 3306
+# staging-db   5432  kubectl port-forward -n staging svc/postgres 5432:5432
+# api-pod      8080  kubectl port-forward -n staging $(kubectl get pod -n staging -l app=api -o jsonpath='{.items[0].metadata.name}') 8080:80
