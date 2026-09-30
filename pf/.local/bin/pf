@@ -6,12 +6,15 @@
 #   pf                 picker (fzf): enter toggles, tab marks several, esc quits
 #   pf start NAME...   pf stop NAME... | --all   pf toggle NAME   pf restart NAME
 #   pf status          pf logs NAME [-f]         pf show NAME     pf edit
+#   A port held by something pf did not start ("busy") is killed after a
+#   prompt; -f / --force or PF_FORCE=1 skips the prompt.
 
 set -u
 setopt extended_glob
 PF_SELF=${0:A} # inside functions $0 is the function name, fzf needs the script
 PF_CONFIG="${PF_CONFIG:-$HOME/.config/pf/forwards}"
 PF_STATE="${PF_STATE:-$HOME/.local/state/pf}"
+PF_FORCE="${PF_FORCE:-0}"
 mkdir -p "$PF_STATE"
 
 typeset -a NAMES PORTS CMDS
@@ -67,6 +70,42 @@ port_pid() {
 	lsof -nP -iTCP:"$1" -sTCP:LISTEN -t 2>/dev/null | head -n 1
 }
 
+# "pid 123  kubectl port-forward ..." for whatever listens on a port
+busy_desc() {
+	local pid args
+	pid=$(port_pid "$1")
+	[[ -n $pid ]] || return 1
+	args=$(ps -p "$pid" -o args= 2>/dev/null)
+	print -r -- "pid $pid  ${args:-?}"
+}
+
+# Kill the foreign process on a port, after asking unless forced.
+kill_busy() {
+	local name=$1 port=$2 pid desc n reply
+	pid=$(port_pid "$port")
+	[[ -n $pid ]] || return 0
+	desc=$(busy_desc "$port")
+	print -r -- "$(icon_of busy) $name: port $port is used by ${desc[1,110]}"
+	if [[ $PF_FORCE != 1 ]]; then
+		[[ -t 0 ]] || { print -- "    not a terminal, use -f to kill it" >&2; return 1; }
+		read -q "reply?    kill it? [y/N] " || { print; return 1; }
+		print
+	fi
+	kill "$pid" 2>/dev/null
+	n=0
+	while alive "$pid" && ((n < 20)); do
+		sleep 0.25
+		((n++))
+	done
+	alive "$pid" && kill -9 "$pid" 2>/dev/null
+	sleep 0.2
+	if [[ -n $(port_pid "$port") ]]; then
+		print -r -- "$(icon_of busy) $name: port $port is still in use" >&2
+		return 1
+	fi
+	print -- "$(icon_of stopped) killed pid $pid, port $port is free"
+}
+
 # running | died | busy | stopped
 state_of() {
 	local name=$1 port=$2 pid
@@ -108,8 +147,7 @@ start_one() {
 	fi
 	rm -f "$PF_STATE/$name.pid" # a previous run that died
 	if [[ -n $(port_pid "$port") ]]; then
-		print -r -- "$(icon_of busy) $name: port $port is already in use by pid $(port_pid "$port")" >&2
-		return 1
+		kill_busy "$name" "$port" || return 1
 	fi
 	log=$PF_STATE/$name.log
 	print -r -- "# $(date '+%F %T') pf start: $cmd" >"$log"
@@ -140,6 +178,10 @@ stop_one() {
 	pid=$(pid_of "$name")
 	if ! alive "$pid"; then
 		rm -f "$PF_STATE/$name.pid"
+		if [[ -n $(port_pid "${PORTS[i]}") ]]; then
+			kill_busy "$name" "${PORTS[i]}"
+			return $?
+		fi
 		print -- "$(icon_of stopped) $name is not running"
 		return 0
 	fi
@@ -157,11 +199,11 @@ stop_one() {
 toggle_one() {
 	local name=$1 i
 	i=$(require "$name") || return 1
-	if [[ $(state_of "$name" "${PORTS[i]}") == running ]]; then
-		stop_one "$name"
-	else
-		start_one "$name"
-	fi
+	case $(state_of "$name" "${PORTS[i]}") in
+	running) stop_one "$name" ;;
+	busy) kill_busy "$name" "${PORTS[i]}" && start_one "$name" ;;
+	*) start_one "$name" ;;
+	esac
 }
 
 status_all() {
@@ -191,6 +233,7 @@ show_one() {
 	print -- "$(icon_of "$st") $name  ·  $st${pid:+  ·  pid $pid}"
 	print -- "port     127.0.0.1:${PORTS[i]}"
 	print -r -- "command  ${CMDS[i]}"
+	[[ $st == busy ]] && print -r -- "busy     $(busy_desc "${PORTS[i]}")"
 	log=$PF_STATE/$name.log
 	if [[ -r $log ]]; then
 		print
@@ -218,7 +261,7 @@ pick() {
 		sel=$(
 			C_GREEN=$'\e[32m' C_RED=$'\e[31m' C_YELLOW=$'\e[33m' C_DIM=$'\e[2m' C_OFF=$'\e[0m' list_lines |
 				fzf --ansi --multi --no-sort --layout=reverse \
-					--header 'enter: toggle  ·  tab: mark several  ·  esc: quit' \
+					--header 'enter: toggle (busy: kill + start, asks first)  ·  tab: mark several  ·  esc: quit' \
 					--preview "$PF_SELF show {2}" --preview-window 'right,55%,wrap' \
 					--bind 'ctrl-r:reload('"$PF_SELF"' list)'
 		) || return 0
@@ -235,6 +278,15 @@ usage() {
 }
 
 main() {
+	local -a rest
+	local a
+	for a in "$@"; do
+		case $a in
+		-f | --force) PF_FORCE=1 ;;
+		*) rest+=("$a") ;;
+		esac
+	done
+	set -- "${rest[@]}"
 	local cmd=${1:-pick}
 	shift $(($# > 0 ? 1 : 0))
 	load

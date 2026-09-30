@@ -15,7 +15,9 @@ pf edit               open the definitions file
 ```
 
 States: `●` running, `○` stopped, `✗` died on its own (see `pf logs`),
-`!` the port is taken by something pf did not start.
+`!` the port is taken by something pf did not start. Toggling, starting or
+stopping a busy one shows what holds the port and asks before killing it;
+`-f` / `--force` (or `PF_FORCE=1`) skips the question.
 
 Definitions live in `~/.config/pf/forwards` (gitignored, start from `forwards.example`), one per line:
 `NAME  LOCAL_PORT  COMMAND...`. Logs and pid files in `~/.local/state/pf`.
