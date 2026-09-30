@@ -1,27 +1,60 @@
 # pf
 
-Start, stop and pick long-running port forwards without keeping a terminal
+Start, stop and watch long-running port forwards without keeping a terminal
 tab hostage. Works for `kubectl port-forward`, `cloud-sql-proxy`, or anything
 that listens on a local port.
 
+`pf` with no arguments opens a small dashboard (`pf-tui`, Go + Bubble Tea):
+
 ```
-pf                    picker: enter toggles, tab marks several, ctrl-r refreshes, esc quits
+ pf  12 forwards · 2 running
+╭─ list ─────────────────────────╮╭─ prod-db ─────────────────────────────╮
+│▎● prod-db   :3310 running ││ state    running · pid 4159                │
+│ ○ staging-db   :3314 stopped ││ port     127.0.0.1:3310                    │
+│ ! api-pod   :3316 busy    ││ command  cloud-sql-proxy ...               │
+│ ✗ redis      :3324 died    ││ ──────────────────────────────────────────  │
+│                                ││ 2026/09/30 10:31 Listening on 127.0.0.1... │
+╰────────────────────────────────╯╰────────────────────────────────────────────╯
+ enter toggle · x stop · r restart · S stop all · e edit · ? help · q quit
+```
+
+The list refreshes every second and the right pane tails the selected log.
+`enter` toggles, `s`/`x`/`r` start/stop/restart, `S` stops everything, `e`
+opens the definitions in `$EDITOR`, `q` quits (forwards keep running).
+
+States: `●` running, `○` stopped, `✗` died on its own (the log tells why),
+`!` the port is held by something pf did not start. Toggling a busy one shows
+the owner and asks first. If the owner is a Docker container (OrbStack or
+Docker Desktop publish ports through their VM helper, which must never be
+killed) it offers `docker stop <container>` instead of a kill.
+
+## Command line
+
+```
 pf start NAME...      run detached, wait until the port listens
 pf stop NAME... | --all
 pf toggle NAME        pf restart NAME
 pf status             every forward with state and pid
-pf logs NAME [-f|N]   pf show NAME (what the picker's preview shows)
+pf logs NAME [-f|N]   pf show NAME
 pf edit               open the definitions file
+pf -f ...             skip the "kill it?" question (or PF_FORCE=1)
 ```
 
-States: `●` running, `○` stopped, `✗` died on its own (see `pf logs`),
-`!` the port is taken by something pf did not start. Toggling, starting or
-stopping a busy one shows what holds the port and asks before killing it;
-`-f` / `--force` (or `PF_FORCE=1`) skips the question.
+`pf-<name>` aliases exist for every forward (see `pf.zsh`), so
+`pf-prod-db` still works, now detached instead of blocking the tab.
 
-Definitions live in `~/.config/pf/forwards` (gitignored, start from `forwards.example`), one per line:
-`NAME  LOCAL_PORT  COMMAND...`. Logs and pid files in `~/.local/state/pf`.
+## Files
 
-Install with `stow pf` from the dotfiles root (links `~/.local/bin/pf` and
-`~/.config/pf`), then add `source ~/.config/pf/pf.zsh` to `.zshrc` for
-completion and the `pf-<name>` aliases. Needs `fzf` for the picker.
+- `~/.config/pf/forwards` (gitignored, start from `forwards.example`): one
+  forward per line, `NAME  LOCAL_PORT  COMMAND...`. Commands run through
+  `zsh -c`, so `$(...)` works.
+- `~/.local/state/pf/<name>.log` and `.pid`.
+
+## Install
+
+```sh
+cd ~/dotfiles && stow pf      # links ~/.local/bin/pf, ~/.local/bin/pf-tui, ~/.config/pf
+./pf/build.sh                 # builds pf-tui (needs Go); without it `pf` falls back to fzf
+```
+
+Then `source ~/.config/pf/pf.zsh` from `.zshrc` for completion and aliases.

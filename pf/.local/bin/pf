@@ -3,7 +3,7 @@
 # cloud-sql-proxy, ...). Each forward runs detached; its log and pid live in
 # ~/.local/state/pf. Definitions come from ~/.config/pf/forwards.
 #
-#   pf                 picker (fzf): enter toggles, tab marks several, esc quits
+#   pf                 interactive TUI (pf-tui, or the fzf picker as fallback)
 #   pf start NAME...   pf stop NAME... | --all   pf toggle NAME   pf restart NAME
 #   pf status          pf logs NAME [-f]         pf show NAME     pf edit
 #   A port held by something pf did not start ("busy") is killed after a
@@ -70,11 +70,28 @@ port_pid() {
 	lsof -nP -iTCP:"$1" -sTCP:LISTEN -t 2>/dev/null | head -n 1
 }
 
-# "pid 123  kubectl port-forward ..." for whatever listens on a port
+# Docker container publishing a host port (through OrbStack or Docker
+# Desktop the listening pid is the VM helper, never the container itself).
+docker_owner() {
+	local pid=$1 port=$2 args
+	args=$(ps -p "$pid" -o args= 2>/dev/null)
+	[[ $args == *OrbStack* || $args == *com.docker* || $args == *docker* ]] || return 1
+	command -v docker >/dev/null || return 1
+	docker ps --format '{{.Names}}\t{{.Ports}}' 2>/dev/null |
+		awk -F'\t' -v p=":$port->" 'index($2, p) { print $1; exit }'
+}
+
+# "pid 123  kubectl port-forward ..." or "docker container NAME" for
+# whatever listens on a port
 busy_desc() {
-	local pid args
+	local pid args name
 	pid=$(port_pid "$1")
 	[[ -n $pid ]] || return 1
+	name=$(docker_owner "$pid" "$1")
+	if [[ -n $name ]]; then
+		print -r -- "docker container $name"
+		return 0
+	fi
 	args=$(ps -p "$pid" -o args= 2>/dev/null)
 	print -r -- "pid $pid  ${args:-?}"
 }
@@ -86,10 +103,28 @@ kill_busy() {
 	[[ -n $pid ]] || return 0
 	desc=$(busy_desc "$port")
 	print -r -- "$(icon_of busy) $name: port $port is used by ${desc[1,110]}"
+	local container=${desc#docker container }
+	[[ $desc == docker\ container\ * ]] || container=""
 	if [[ $PF_FORCE != 1 ]]; then
-		[[ -t 0 ]] || { print -- "    not a terminal, use -f to kill it" >&2; return 1; }
-		read -q "reply?    kill it? [y/N] " || { print; return 1; }
+		local what="kill it"
+		[[ -n $container ]] && what="stop the container"
+		[[ -t 0 ]] || { print -- "    not a terminal, use -f to $what" >&2; return 1; }
+		if [[ -n $container ]]; then
+			read -q "reply?    stop the container? [y/N] " || { print; return 1; }
+		else
+			read -q "reply?    kill it? [y/N] " || { print; return 1; }
+		fi
 		print
+	fi
+	if [[ -n $container ]]; then
+		docker stop "$container" >/dev/null 2>&1 || { print -r -- "$(icon_of busy) $name: docker stop $container failed" >&2; return 1; }
+		sleep 0.3
+		if [[ -n $(port_pid "$port") ]]; then
+			print -r -- "$(icon_of busy) $name: port $port is still in use" >&2
+			return 1
+		fi
+		print -- "$(icon_of stopped) stopped container $container, port $port is free"
+		return 0
 	fi
 	kill "$pid" 2>/dev/null
 	n=0
@@ -216,6 +251,18 @@ status_all() {
 	done
 }
 
+# tab-separated: name port state pid owner command  (for pf-tui)
+state_lines() {
+	local i st pid owner
+	for ((i = 1; i <= ${#NAMES}; i++)); do
+		st=$(state_of "${NAMES[i]}" "${PORTS[i]}")
+		pid=$(pid_of "${NAMES[i]}")
+		owner=""
+		[[ $st == busy ]] && owner=$(busy_desc "${PORTS[i]}")
+		printf '%s\t%s\t%s\t%s\t%s\t%s\n' "${NAMES[i]}" "${PORTS[i]}" "$st" "$pid" "$owner" "${CMDS[i]}"
+	done
+}
+
 # one line per forward, name in field 2, for fzf
 list_lines() {
 	local i st
@@ -255,7 +302,11 @@ logs_one() {
 }
 
 pick() {
-	command -v fzf >/dev/null || die "fzf is not installed (brew install fzf); use: pf start NAME"
+	local tui=${PF_SELF:h}/pf-tui
+	if [[ -x $tui && -t 1 ]]; then
+		exec "$tui"
+	fi
+	command -v fzf >/dev/null || die "neither pf-tui (run ~/dotfiles/pf/build.sh) nor fzf is available; use: pf start NAME"
 	local sel name
 	while true; do
 		sel=$(
@@ -321,6 +372,7 @@ main() {
 	status | ls) status_all ;;
 	list) C_GREEN=$'\e[32m' C_RED=$'\e[31m' C_YELLOW=$'\e[33m' C_DIM=$'\e[2m' C_OFF=$'\e[0m' list_lines ;;
 	list-names) print -l -- "${NAMES[@]}" ;;
+	state) state_lines ;;
 	show)
 		(($#)) || die "usage: pf show NAME"
 		show_one "$1"
