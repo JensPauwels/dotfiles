@@ -9,6 +9,7 @@
 
 set -u
 setopt extended_glob
+PF_SELF=${0:A} # inside functions $0 is the function name, fzf needs the script
 PF_CONFIG="${PF_CONFIG:-$HOME/.config/pf/forwards}"
 PF_STATE="${PF_STATE:-$HOME/.local/state/pf}"
 mkdir -p "$PF_STATE"
@@ -218,8 +219,8 @@ pick() {
 			C_GREEN=$'\e[32m' C_RED=$'\e[31m' C_YELLOW=$'\e[33m' C_DIM=$'\e[2m' C_OFF=$'\e[0m' list_lines |
 				fzf --ansi --multi --no-sort --layout=reverse \
 					--header 'enter: toggle  ·  tab: mark several  ·  esc: quit' \
-					--preview "$0 show {2}" --preview-window 'right,55%,wrap' \
-					--bind 'ctrl-r:reload('"$0"' list)'
+					--preview "$PF_SELF show {2}" --preview-window 'right,55%,wrap' \
+					--bind 'ctrl-r:reload('"$PF_SELF"' list)'
 		) || return 0
 		[[ -z $sel ]] && return 0
 		while IFS= read -r line; do
@@ -230,7 +231,7 @@ pick() {
 }
 
 usage() {
-	sed -n '2,9p' "$0" | sed 's/^# \{0,1\}//'
+	sed -n '2,9p' "$PF_SELF" | sed 's/^# \{0,1\}//'
 }
 
 main() {
