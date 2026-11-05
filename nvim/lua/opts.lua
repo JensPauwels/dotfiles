@@ -11,8 +11,15 @@ vim.opt.relativenumber = true
 -- Set the leader to space
 vim.g.mapleader = " "
 
--- Enable word wrapping
-vim.opt.wrap = true
+-- No wrapping for code; prose wraps at word boundaries
+vim.opt.wrap = false
+vim.api.nvim_create_autocmd("FileType", {
+	pattern = { "markdown", "text", "gitcommit" },
+	callback = function()
+		vim.opt_local.wrap = true
+		vim.opt_local.linebreak = true
+	end,
+})
 
 -- Enable auto indentation
 vim.opt.autoindent = true
@@ -34,7 +41,26 @@ vim.o.smartindent = true
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 
-vim.g.go_doc_keywordprg_enabled = 0
+-- Undo survives closing the file, restarts and reloads after outside edits
+vim.opt.undofile = true
+
+-- Always room for signs, so text doesn't shift when signs/diagnostics appear
+vim.opt.signcolumn = "yes"
+
+-- Keep some lines around the cursor; highlight its line
+vim.opt.scrolloff = 8
+vim.opt.cursorline = true
+
+-- Preview :s/…/…/ in a split while typing
+vim.opt.inccommand = "split"
+
+-- Ask instead of failing on :q with unsaved changes
+vim.opt.confirm = true
+
+-- y / p use the system clipboard (set after startup: the provider is slow to load)
+vim.schedule(function()
+	vim.opt.clipboard = "unnamedplus"
+end)
 
 vim.opt.autoread = true
 -- Faster CursorHold trigger (default 4000ms is too slow for external change detection)
@@ -45,11 +71,13 @@ vim.api.nvim_create_autocmd({ "BufEnter", "CursorHold", "CursorHoldI", "FocusGai
 	command = "if mode() !~ 'r' && getcmdwintype() == '' | checktime | endif",
 })
 
--- Notify when a file is reloaded from disk (e.g. changed in VSCode)
+-- A quiet hint when a file is reloaded because something else (Claude)
+-- changed it; undo (u) takes you back to before the change.
 vim.api.nvim_create_autocmd("FileChangedShellPost", {
 	pattern = "*",
-	callback = function()
-		vim.notify("File changed on disk. Buffer reloaded.", vim.log.levels.WARN)
+	callback = function(ev)
+		local name = vim.fn.fnamemodify(ev.file, ":~:.")
+		vim.api.nvim_echo({ { "↻ " .. name .. " changed on disk, reloaded", "Comment" } }, false, {})
 	end,
 })
 

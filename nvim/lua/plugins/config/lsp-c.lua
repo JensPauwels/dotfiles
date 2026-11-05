@@ -59,14 +59,14 @@ vim.api.nvim_create_autocmd("LspAttach", {
 			vim.keymap.set(mode, lhs, rhs, { buffer = bufnr, desc = desc })
 		end
 
-		map("n", "gd", function() Snacks.picker.lsp_definitions() end, "Goto Definition")
-		map("n", "gr", function() Snacks.picker.lsp_references() end, "References")
-		map("n", "gD", function() Snacks.picker.lsp_declarations() end, "Goto Declaration")
-		map("n", "gI", function() Snacks.picker.lsp_implementations() end, "Goto Implementation")
-		map("n", "gb", function() Snacks.picker.lsp_type_definitions() end, "Goto Type Definition")
-		map("n", "K", vim.lsp.buf.hover, "Hover")
-		map("n", "gK", vim.lsp.buf.signature_help, "Signature Help")
-		map({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, "Code Action")
+		map("n", "gd", function() Snacks.picker.lsp_definitions() end, "Code: go to definition")
+		map("n", "gr", function() Snacks.picker.lsp_references() end, "Code: references")
+		map("n", "gD", function() Snacks.picker.lsp_declarations() end, "Code: go to declaration")
+		map("n", "gI", function() Snacks.picker.lsp_implementations() end, "Code: go to implementation")
+		map("n", "gb", function() Snacks.picker.lsp_type_definitions() end, "Code: go to type definition")
+		map("n", "K", vim.lsp.buf.hover, "Code: hover")
+		map("n", "gK", vim.lsp.buf.signature_help, "Code: signature help")
+		map({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, "Code: action")
 	end,
 })
 

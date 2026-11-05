@@ -1,8 +1,5 @@
 return {
 	"saghen/blink.cmp",
-	dependencies = {
-		"fang2hou/blink-copilot",
-	},
 	version = "*",
 	opts = {
 		enabled = function()
@@ -14,15 +11,29 @@ return {
 			["<Down>"] = { "select_next", "fallback" },
 			["<Tab>"] = { "select_and_accept", "fallback" },
 			["<s-Tab>"] = { "select_prev", "fallback" },
-			["<Cr>"] = { "select_and_accept", "fallback" },
+			-- Enter only takes an item you selected; otherwise it is a newline
+			["<Cr>"] = { "accept", "fallback" },
+		},
+		completion = {
+			-- nothing selected until you move (<Tab> still takes the first one)
+			list = { selection = { preselect = false, auto_insert = true } },
 		},
 		signature = { enabled = true },
 		appearance = {
 			nerd_font_variant = "Nerd Font Mono",
 		},
 		snippets = { preset = "luasnip" },
+		-- Fuzzy completion on the : command line (menu shows while typing)
 		cmdline = {
-			enabled = false,
+			enabled = true,
+			keymap = { preset = "cmdline" },
+			completion = {
+				menu = {
+					auto_show = function()
+						return vim.fn.getcmdtype() == ":"
+					end,
+				},
+			},
 		},
 		sources = {
 			default = {
@@ -30,18 +41,6 @@ return {
 				"path",
 				"snippets",
 				"buffer",
-				"copilot",
-			},
-			providers = {
-				copilot = {
-					name = "copilot",
-					module = "blink-copilot",
-					score_offset = 100,
-					async = true,
-					opts = {
-						max_completions = 3,
-					},
-				},
 			},
 		},
 	},

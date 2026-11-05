@@ -6,10 +6,10 @@ return {
 		priority = 1000,
 		config = function()
 			require("catppuccin").setup({
-				flavour = "mocha", -- latte, frappe, macchiato, mocha
+				flavour = "macchiato", -- latte, frappe, macchiato, mocha
 				background = {
 					light = "latte",
-					dark = "mocha",
+					dark = "macchiato",
 				},
 				transparent_background = false,
 				show_end_of_buffer = false,
@@ -39,19 +39,14 @@ return {
 				color_overrides = {},
 				custom_highlights = {},
 				integrations = {
-					cmp = true,
+					blink_cmp = true,
 					gitsigns = true,
-					nvimtree = true,
+					snacks = true,
 					treesitter = true,
-					notify = false,
-					mini = {
-						enabled = true,
-						indentscope_color = "",
-					},
-					-- For more plugins integrations please scroll down (https://github.com/catppuccin/nvim#integrations)
+					which_key = true,
 				},
 			})
-			-- colorscheme is now set by aura.lua (matches Zed's Aura Soft Dark)
+			vim.cmd.colorscheme("catppuccin-macchiato")
 		end,
 	},
 }

@@ -14,11 +14,27 @@ return {
 					return
 				end
 				local lang = vim.treesitter.language.get_lang(ft) or ft
-				if not pcall(vim.treesitter.language.add, lang) then
+				local function start()
+					if not vim.api.nvim_buf_is_valid(bufnr) then
+						return
+					end
+					pcall(vim.treesitter.start, bufnr, lang)
+					vim.bo[bufnr].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+				end
+				if pcall(vim.treesitter.language.add, lang) then
+					start()
 					return
 				end
-				pcall(vim.treesitter.start, bufnr, lang)
-				vim.bo[bufnr].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+				-- No parser yet: install it the first time the language is opened
+				if vim.tbl_contains(require("nvim-treesitter").get_available(), lang) then
+					require("nvim-treesitter").install({ lang }):await(function(err)
+						vim.schedule(function()
+							if not err and pcall(vim.treesitter.language.add, lang) then
+								start()
+							end
+						end)
+					end)
+				end
 			end,
 		})
 	end,
