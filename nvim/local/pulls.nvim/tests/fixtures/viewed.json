@@ -1,0 +1,7 @@
+[{"data": {"repository": {"pullRequest": {"id": "PR_node7", "files": {
+  "pageInfo": {"hasNextPage": true, "endCursor": "Mg"},
+  "nodes": [{"path": "src/app.lua", "viewerViewedState": "UNVIEWED"},
+            {"path": "docs/new.md", "viewerViewedState": "VIEWED"}]}}}}},
+ {"data": {"repository": {"pullRequest": {"id": "PR_node7", "files": {
+  "pageInfo": {"hasNextPage": false, "endCursor": "Mw"},
+  "nodes": [{"path": "old.txt", "viewerViewedState": "DISMISSED"}]}}}}}]

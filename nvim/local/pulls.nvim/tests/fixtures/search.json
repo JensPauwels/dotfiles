@@ -1,0 +1,6 @@
+[{"number": 7, "title": "Add widgets", "repository": {"name": "widgets", "nameWithOwner": "acme/widgets"},
+  "author": {"login": "alice"}, "updatedAt": "2026-11-02T08:00:00Z", "isDraft": false, "state": "open",
+  "url": "https://github.com/acme/widgets/pull/7", "body": "Hello"},
+ {"number": 3, "title": "Other repo", "repository": {"name": "gears", "nameWithOwner": "acme/gears"},
+  "author": {"login": "erin"}, "updatedAt": "2026-11-03T08:00:00Z", "isDraft": true, "state": "open",
+  "url": "https://github.com/acme/gears/pull/3", "body": ""}]

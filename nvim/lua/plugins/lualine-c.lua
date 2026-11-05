@@ -11,7 +11,15 @@ return {
 		},
 		sections = {
 			lualine_a = { "mode" },
-			lualine_b = { "branch", "diff" },
+			lualine_b = {
+				"branch",
+				"diff",
+				-- "#123 4/9" (viewed/changed files) while reviewing a pull request
+				{
+					function() return require("pulls.review").status() end,
+					cond = function() return package.loaded["pulls.review"] ~= nil end,
+				},
+			},
 			lualine_c = { { "filename", path = 1 } },
 			lualine_x = { "diagnostics", "filetype" },
 			lualine_y = { "progress" },

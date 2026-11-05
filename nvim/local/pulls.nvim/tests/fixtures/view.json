@@ -1,0 +1,17 @@
+{"number": 7, "title": "Add widgets", "body": "Hello\r\n\r\nWorld", "author": {"login": "alice"},
+ "state": "OPEN", "isDraft": false, "url": "https://github.com/acme/widgets/pull/7",
+ "headRefName": "feature", "headRefOid": "abc123", "baseRefName": "main",
+ "createdAt": "2026-11-01T08:00:00Z", "updatedAt": "2026-11-02T08:00:00Z",
+ "additions": 6, "deletions": 3, "changedFiles": 5, "reviewDecision": "CHANGES_REQUESTED",
+ "mergeable": "MERGEABLE", "labels": [{"name": "bug"}], "assignees": [], "reviewRequests": [{"login": "erin"}],
+ "reviews": [
+  {"author": {"login": "bob"}, "state": "CHANGES_REQUESTED", "body": "Please fix", "submittedAt": "2026-11-02T10:00:00Z"},
+  {"author": {"login": "bob"}, "state": "COMMENTED", "body": "", "submittedAt": "2026-11-02T10:01:00Z"}
+ ],
+ "comments": [{"author": {"login": "carol"}, "body": "Nice", "createdAt": "2026-11-01T09:00:00Z"}],
+ "commits": [{"oid": "abcdef1234", "messageHeadline": "Add widgets", "authors": [{"login": "alice"}], "committedDate": "2026-11-01T08:00:00Z"}],
+ "statusCheckRollup": [
+  {"__typename": "CheckRun", "name": "build", "workflowName": "ci", "status": "COMPLETED", "conclusion": "SUCCESS"},
+  {"__typename": "CheckRun", "name": "test", "workflowName": "ci", "status": "COMPLETED", "conclusion": "FAILURE"},
+  {"__typename": "StatusContext", "context": "ext", "state": "PENDING"}
+ ]}

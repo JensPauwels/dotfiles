@@ -1,0 +1,39 @@
+diff --git a/src/app.lua b/src/app.lua
+index 1111111..2222222 100644
+--- a/src/app.lua
++++ b/src/app.lua
+@@ -1,4 +1,5 @@ local M = {}
+ local a = 1
+-local b = 2
++local b = 3
++local c = 4
+ local d = 5
+ local e = 6
+@@ -10,3 +11,3 @@ function M.run()
+ x()
+-y()
++y(true)
+ z()
+diff --git a/docs/new.md b/docs/new.md
+new file mode 100644
+index 0000000..3333333
+--- /dev/null
++++ b/docs/new.md
+@@ -0,0 +1,2 @@
++# New
++text
+diff --git a/old.txt b/old.txt
+deleted file mode 100644
+index 4444444..0000000
+--- a/old.txt
++++ /dev/null
+@@ -1 +0,0 @@
+-gone
+\ No newline at end of file
+diff --git a/a.txt b/b.txt
+similarity index 100%
+rename from a.txt
+rename to b.txt
+diff --git a/img.png b/img.png
+index 5555555..6666666 100644
+Binary files a/img.png and b/img.png differ

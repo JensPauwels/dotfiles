@@ -1,0 +1,40 @@
+#!/bin/sh
+# Fake gh for the tests: logs its arguments to $PULLS_GH_LOG (fields
+# separated by \037, calls by \036) and answers from ../fixtures.
+dir="$(cd "$(dirname "$0")/../fixtures" && pwd)"
+# one locked write per call, so concurrent calls do not interleave (long
+# arguments are written in several chunks)
+us=$(printf '\037')
+rec=""
+for a in "$@"; do rec="$rec$a$us"; done
+while ! mkdir "$PULLS_GH_LOG.lock" 2>/dev/null; do sleep 0.01; done
+printf '%s\036' "$rec" >>"$PULLS_GH_LOG"
+rmdir "$PULLS_GH_LOG.lock"
+case "$1 $2" in
+"repo view") echo '{"nameWithOwner":"acme/widgets"}' ;;
+"pr list") cat "$dir/list.json" ;;
+"pr view") cat "$dir/view.json" ;;
+"pr diff") cat "$dir/diff.patch" ;;
+"search prs") cat "$dir/search.json" ;;
+"pr comment" | "pr review") ;;
+"pr checkout")
+	# the review tests point this at a branch of their scratch clone
+	# (like gh: check the branch out, then bring it up to date)
+	if [ -n "$PULLS_FAKE_BRANCH" ]; then
+		git checkout -q "$PULLS_FAKE_BRANCH" || exit 1
+		git fetch -q origin "$PULLS_FAKE_BRANCH" && git merge -q --ff-only FETCH_HEAD || exit 1
+	fi
+	;;
+"api --paginate") cat "$dir/comments.json" ;;
+"api -X") echo '{}' ;;
+"api graphql")
+	case "$rec" in
+	*markFileAsViewed*) echo '{"data":{}}' ;;
+	*) cat "$dir/viewed.json" ;;
+	esac
+	;;
+*)
+	echo "fake gh: unexpected $*" >&2
+	exit 1
+	;;
+esac

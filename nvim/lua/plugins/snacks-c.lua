@@ -25,8 +25,19 @@ return {
 		image = { enabled = false },
 	},
 	keys = {
-		{ "<C-t>", function() Snacks.terminal.toggle() end, desc = "Toggle terminal", mode = { "n", "t" } },
-		{ "<leader>n", function() Snacks.explorer() end, desc = "File explorer" },
-		{ "<leader>s", function() Snacks.explorer.reveal() end, desc = "Reveal current file in explorer" },
+		{ "<C-t>", function() Snacks.terminal.toggle() end, desc = "Terminal: toggle", mode = { "n", "t" } },
+		{
+			"<leader>n",
+			function()
+				-- While reviewing a pull request (:PR review), the sidebar lists
+				-- its changed files instead of the whole tree.
+				if not require("pulls.review").tree() then
+					Snacks.explorer()
+				end
+			end,
+			desc = "Explorer: files (changed files while reviewing a PR)",
+		},
+		{ "<leader>N", function() Snacks.explorer() end, desc = "Explorer: always the full tree" },
+		{ "<leader>s", function() Snacks.explorer.reveal() end, desc = "Explorer: reveal the current file" },
 	},
 }
