@@ -32,7 +32,9 @@ Depends only on Neovim 0.10+, `vim.diff` and the `git` executable.
 | diff | `s` | stage (or unstage, in Staged) the change under the cursor |
 | diff | `V` then `s` | stage / unstage only the selected lines |
 | diff | `X` | discard the change under the cursor (asks first); `V` then `X` for lines |
-| diff | `<CR>` / `gf` | open the real file at this line |
+| diff | `<CR>` / `gf` | open the real file at this line (in the previous tab) |
+| diff | `gs` | open the real file in a split next to the diff, inside the view; LSP works there |
+| diff | `gd` | show the definition in that split, the cursor stays in the diff |
 | diff | `<leader>k` / `K` | hover info from the language server of the real file |
 | diff | `zo` `za` `zR` | unfold hidden lines |
 | diff | `-` | back to the panel |
@@ -44,6 +46,15 @@ Depends only on Neovim 0.10+, `vim.diff` and the `git` executable.
 
 The view refreshes itself when you write a file or come back to Neovim.
 Unsaved edits in an open buffer are shown immediately.
+
+### The side split
+
+`gs` opens the real file in a split to the right of the diff, without
+leaving the view: it is an ordinary buffer, so language servers attach and
+`gd`, references, hover and editing all work there. Saving it refreshes the
+diff. `gd` in the diff shows the definition of the symbol under the cursor
+in that same split and keeps you in the diff, so `<C-w>l` takes you there
+and `<C-w>h` back. Later calls reuse the split; close it like any window.
 
 ### Selecting lines
 

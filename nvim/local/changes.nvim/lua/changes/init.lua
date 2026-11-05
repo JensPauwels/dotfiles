@@ -9,6 +9,7 @@
 local api = vim.api
 local git = require("changes.git")
 local diff = require("changes.diff")
+local side = require("changes.side")
 
 local M = {}
 
@@ -1135,27 +1136,24 @@ local function open_file()
 	vim.cmd("normal! zv")
 end
 
---- LSP hover for the symbol under the cursor. The diff buffer has no
---- language server, so the request goes to the servers attached to the real
---- file, at the same line and column. Loading that file (hidden) is enough
---- to make the servers attach; they may need a moment to start.
-local function hover()
+--- The real file behind the diff and the cursor position in it, for the
+--- language server. nil (with a message) when the line under the cursor is
+--- not in the working tree file as shown.
+--- @return integer|nil buf, integer row, integer col, string label
+local function real_position()
 	local s = state
 	local f = s.file
 	if not f or f.binary then
-		return
+		return nil, 0, 0, ""
 	end
 	local full = s.root .. "/" .. f.entry.path
 	if vim.fn.filereadable(full) == 0 then
 		notify("File does not exist in the working tree", vim.log.levels.WARN)
-		return
+		return nil, 0, 0, ""
 	end
 	local pos = api.nvim_win_get_cursor(s.view.win)
 	local row, col = pos[1] - 1, pos[2]
-	local buf = vim.fn.bufadd(full)
-	if not api.nvim_buf_is_loaded(buf) then
-		vim.fn.bufload(buf)
-	end
+	local buf = side.load(full)
 	local view_line = api.nvim_buf_get_lines(s.view.buf, row, row + 1, false)[1]
 	local real_line = api.nvim_buf_get_lines(buf, row, row + 1, false)[1]
 	if view_line ~= real_line then
@@ -1163,64 +1161,55 @@ local function hover()
 			"This line differs from the working tree file, so the language server cannot answer for it",
 			vim.log.levels.WARN
 		)
+		return nil, 0, 0, ""
+	end
+	return buf, row, col, f.entry.path
+end
+
+--- Still waiting on the same diff and line?
+local function still_here(row)
+	local s = state
+	return function()
+		return is_open()
+			and state == s
+			and api.nvim_win_is_valid(s.view.win)
+			and api.nvim_win_get_cursor(s.view.win)[1] - 1 == row
+	end
+end
+
+--- LSP hover for the symbol under the cursor. The diff buffer has no
+--- language server, so the request goes to the servers attached to the real
+--- file, at the same line and column. Loading that file (hidden) is enough
+--- to make the servers attach; they may need a moment to start.
+local function hover()
+	local buf, row, col, label = real_position()
+	if buf then
+		side.hover(buf, row, col, { label = label, valid = still_here(row), focus_id = "changes_hover" })
+	end
+end
+
+--- Show the definition of the symbol under the cursor in the side window;
+--- the cursor stays in the diff.
+local function definition()
+	local buf, row, col, label = real_position()
+	if buf then
+		side.definition(buf, row, col, { label = label, valid = still_here(row), holder = state, anchor = state.view.win })
+	end
+end
+
+--- Open the real file at this line in the side window and go there.
+local function open_split()
+	local s = state
+	local f = s.file
+	if not f then
 		return
 	end
-
-	local attempts = 0
-	local function try()
-		if not is_open() or api.nvim_get_current_buf() ~= s.view.buf then
-			return
-		end
-		local clients = vim.lsp.get_clients({ bufnr = buf, method = "textDocument/hover" })
-		if #clients == 0 then
-			attempts = attempts + 1
-			if attempts == 2 then
-				notify("Waiting for a language server to attach to " .. f.entry.path .. "...")
-			elseif attempts > 20 then
-				notify("No language server with hover support for " .. f.entry.path, vim.log.levels.WARN)
-				return
-			end
-			vim.defer_fn(try, 500)
-			return
-		end
-		local pending, contents = #clients, {}
-		for _, client in ipairs(clients) do
-			local params = {
-				textDocument = { uri = vim.uri_from_bufnr(buf) },
-				position = {
-					line = row,
-					character = vim.lsp.util.character_offset(buf, row, col, client.offset_encoding),
-				},
-			}
-			client:request("textDocument/hover", params, function(err, result)
-				pending = pending - 1
-				if not err and result and result.contents then
-					local lines = vim.lsp.util.convert_input_to_markdown_lines(result.contents)
-					if #lines > 0 then
-						if #contents > 0 then
-							contents[#contents + 1] = "---"
-						end
-						vim.list_extend(contents, lines)
-					end
-				end
-				if pending == 0 then
-					if #contents == 0 then
-						notify("No hover information available")
-						return
-					end
-					if not api.nvim_win_is_valid(s.view.win) or api.nvim_win_get_cursor(s.view.win)[1] - 1 ~= row then
-						return -- cursor moved on while waiting
-					end
-					vim.lsp.util.open_floating_preview(contents, "markdown", {
-						border = "rounded",
-						focus_id = "changes_hover",
-						max_width = math.min(100, vim.o.columns - 4),
-					})
-				end
-			end, buf)
-		end
+	local full = s.root .. "/" .. f.entry.path
+	if vim.fn.filereadable(full) == 0 then
+		notify("File does not exist in the working tree", vim.log.levels.WARN)
+		return
 	end
-	try()
+	side.open(s, s.view.win, full, api.nvim_win_get_cursor(s.view.win)[1])
 end
 
 local help_lines = {
@@ -1238,7 +1227,9 @@ local help_lines = {
 	"   s              stage / unstage change under cursor",
 	"   V + s          stage / unstage only the selected lines",
 	"   X              discard change under cursor (V + X for lines)",
-	"   <CR> / gf      open the file at this line",
+	"   <CR> / gf      open the file at this line (previous tab)",
+	"   gs             open the file in a split next to the view (LSP works there)",
+	"   gd             show the definition in that split, stay in the diff",
 	"   <leader>k / K  hover info from the language server",
 	"   zo / za / zR   unfold hidden lines",
 	"   -              back to the file panel",
@@ -1252,6 +1243,12 @@ local help_lines = {
 }
 
 local function show_help()
+	-- menu.nvim, when there: the keys of this window, fuzzy-searchable
+	local ok, menu = pcall(require, "menu")
+	if ok then
+		menu.open({ here = true, title = "Changes keys" })
+		return
+	end
 	local buf = api.nvim_create_buf(false, true)
 	api.nvim_buf_set_lines(buf, 0, -1, false, help_lines)
 	vim.bo[buf].modifiable = false
@@ -1340,6 +1337,8 @@ local function setup_keymaps()
 	map(v, "gf", open_file, "open file")
 	map(v, "<leader>k", hover, "hover info")
 	map(v, "K", hover, "hover info")
+	map(v, "gd", definition, "definition in the side window")
+	map(v, "gs", open_split, "open the file in the side window")
 	map(v, "-", function()
 		api.nvim_set_current_win(s.panel.win)
 	end, "focus file panel")
