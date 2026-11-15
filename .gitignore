@@ -2,3 +2,4 @@ node_modules
 .DS_Store
 pf/.config/pf/forwards
 pf/.local/bin/pf-tui
+home/.local/bin/home
