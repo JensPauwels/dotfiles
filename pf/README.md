@@ -8,11 +8,11 @@ that listens on a local port.
 
 ```
  pf  12 forwards · 2 running
-╭─ list ─────────────────────────╮╭─ prod-db ─────────────────────────────╮
-│▎● prod-db   :3310 running ││ state    running · pid 4159                │
-│ ○ staging-db   :3314 stopped ││ port     127.0.0.1:3310                    │
-│ ! api-pod   :3316 busy    ││ command  cloud-sql-proxy ...               │
-│ ✗ redis      :3324 died    ││ ──────────────────────────────────────────  │
+╭─ list ─────────────────────────╮╭─ prod-db ──────────────────────────────────╮
+│▎● prod-db        :3306 running ││ state    running · pid 4159                │
+│ ○ staging-db     :5432 stopped ││ port     127.0.0.1:3306                    │
+│ ! api-pod        :8080 busy    ││ command  cloud-sql-proxy ...               │
+│ ✗ redis          :6379 died    ││ ──────────────────────────────────────────  │
 │                                ││ 2026/09/30 10:31 Listening on 127.0.0.1... │
 ╰────────────────────────────────╯╰────────────────────────────────────────────╯
  enter toggle · x stop · r restart · S stop all · e edit · ? help · q quit
